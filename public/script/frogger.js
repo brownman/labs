@@ -399,6 +399,31 @@ Scoreboard = function(root){
 		this.updateTimer();
 	}
 
+	this.sendFinalScore = function(){
+		console.log(this.root.user);
+		
+		ajaxData = {};
+		ajaxData["score"] = this.score;
+		if (this.root.user.id) {
+			ajaxData["user_id"] = this.root.user.id;
+		}
+		if (this.root.user.first_name){
+			ajaxData["first_name"] = this.root.user.first_name
+		}
+		if (this.root.user.last_name){
+			ajaxData["last_name"] = this.root.user.last_name
+		}
+			
+		$.ajax({
+			type:'POST',
+			url: '/api/score/',
+			data: ajaxData,
+			error: function(XMLHttpRequest, textStatus, errorThrown){
+						alert(errorThrown);
+			}
+		})	
+	}
+
 	this.root = root
 	this.initialize(root);
 }
@@ -407,7 +432,7 @@ Scoreboard = function(root){
 FroggerGame = Klass(CanvasNode, {
 	frogReceiverHeight: 50,
 
-    initialize : function(canvasElem) {
+    initialize : function(canvasElem, fbUser) {
         CanvasNode.initialize.call(this)
         this.canvas = new Canvas(canvasElem)
         this.canvas.frameDuration = 35
@@ -417,6 +442,8 @@ FroggerGame = Klass(CanvasNode, {
 
 		// setup the background
 		this.setupBg();
+
+		this.user = fbUser;
 		
 		// Add the scoreboard
 		this.scoreboard = new Scoreboard(this)
@@ -487,10 +514,11 @@ FroggerGame = Klass(CanvasNode, {
 	},
 
     endGame : function(msg) {
+		this.scoreboard.sendFinalScore();
+		
 		this.removeFrameListener(this.animate)
 		this.cleanUpCanvas();
 		this.canvas.removeAllChildren();
-		//this.canvas.clear = true;
 		
 		// Show link to start new game:
 		document.getElementById("startOver").style.display = "block";
@@ -572,7 +600,7 @@ FroggerGame = Klass(CanvasNode, {
 })
 
 
-init = function() {
+init = function(fbUser) {
     var c = E.canvas(WIDTH, HEIGHT)
     var d = E('div', { id: 'screen' })
     
@@ -585,7 +613,7 @@ init = function() {
     d.appendChild(c)
     document.body.appendChild(d) 
     
-    FG = new FroggerGame(c)
+    FG = new FroggerGame(c,fbUser)
 
     if (document.addEventListener)
     {
