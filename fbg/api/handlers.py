@@ -7,7 +7,7 @@ class ScoreHandler(BaseHandler):
 	allowed_methods = ('POST',)
 
 	def create(self,request):
-		data = request.POST
+		data = request.GET
 		
 		u_id = ""
 		l_name = ""
