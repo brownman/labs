@@ -4,11 +4,13 @@ from django.conf.urls.defaults import *
 from django.contrib import admin
 admin.autodiscover()
 
+from fbg.views import leaderboard
+
 urlpatterns = patterns('',
     # Example:
     (r'^api/', include('fbg.api.urls')),
 
-    (r'^leaderboard/', 'fbg.leaderboard'),
+    (r'^leaderboard/', leaderboard),
 
     (r'^$', "django.views.generic.simple.direct_to_template", {"template":"index.html"}),
 
