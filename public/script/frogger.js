@@ -402,16 +402,11 @@ Scoreboard = function(root){
 	this.sendFinalScore = function(){
 		console.log(this.root.user);
 		
-		ajaxData = {};
-		ajaxData["score"] = this.score;
-		if (this.root.user.id) {
-			ajaxData["user_id"] = this.root.user.id;
-		}
-		if (this.root.user.first_name){
-			ajaxData["first_name"] = this.root.user.first_name
-		}
-		if (this.root.user.last_name){
-			ajaxData["last_name"] = this.root.user.last_name
+		ajaxData = {
+			score: this.score,
+			user_id :this.root.user.id,
+			first_name: this.root.user.first_name,
+			last_name: this.root.user.last_name
 		}
 			
 		$.ajax({
