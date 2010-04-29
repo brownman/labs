@@ -14,7 +14,7 @@
 			FB.Event.subscribe('auth.sessionChange', function(response) {
 				if (response.session) {
 					$("#fbLogin").hide();
-					$("#startGame").show();
+					$("#startOver").show();
 				} else {
 					$("#fbLogin").show();
 				}
@@ -23,18 +23,18 @@
 			FB.getLoginStatus(function(response) {
 			  if (response.session) {
 			    $("#fbLogin").hide();
-				$("#startGame").show();
+				$("#startOver").show();
 			  } else {
 			    $("#fbLogin").show();
 			  }
 			});
-			
-			function froggerInit(){
-				FB.api('/me', function(response) {
-				  init(response); // initialize new game with user object
- 				});
-			}
 		});
+		
+		function froggerInit(){
+			FB.api('/me', function(response) {
+			  init(response); // initialize new game with user object
+			});
+		}
 	</script>
 	<!-- END FB Connect Crap -->
 	
@@ -62,7 +62,7 @@
 		<fb:login-button></fb:login-button>
 	</div>
 
-	<a href="#" id="startOver" onclick="froggerInit();">Start Game</a>
+	<a href="#" id="startOver" onclick="froggerInit();">New Game</a>
 	
 	<p id="level"></p>
 	<p id="timer"></p>
