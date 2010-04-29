@@ -22,11 +22,11 @@ class ScoreHandler(BaseHandler):
 		f_name = data.get("first_name")
 		#if (bool(data.get("score"))):
 		score = data.get("score")
-			
+		
 		try:
-			u = User.objects.get(user_id=u_id)
+			u = User.objects.get(userid=u_id)
 		except User.DoesNotExist:
-			u = User(user_id=u_id,last_name=l_name,first_name=f_name)
+			u = User(userid=u_id,last_name=l_name,first_name=f_name)
 			u.save()
 			
 		p = Play(user=u,score=score)

@@ -6,5 +6,5 @@ from fbg.api.handlers import ScoreHandler
 score = Resource(ScoreHandler)
 
 urlpatterns = patterns('',
-    (r'^score/$', score),
+    (r'^score/?', score),
     )
