@@ -1,0 +1,37 @@
+from piston.handler import BaseHandler
+from piston.utils import rc
+
+from fbg.models import User, Play
+
+def ScoreHandler(request):
+	allowed_methods = ('POST',)
+
+	def create(self,request):
+		data = request.POST
+		
+		u_id = ""
+		l_name = ""
+		f_name = ""
+		score = 0
+		
+		if (bool(data.get("user_id"))):
+			u_id = data.get("user_id")
+		if (bool(data.get("last_name"))):
+			l_name = data.get("last_name")
+		if (bool(data.get("first_name"))):
+			f_name = data.get("first_name")
+		if (bool(data.get("score"))):
+			score = data.get("score")
+			
+		if (u_id=="" or l_name=="" or f_name==""):
+			return rc.BAD_REQUEST
+			
+		try:
+			u = User.objects.get(user_id=u_id)
+		except User.DoesNotExist:
+			u = User(user_id=u_id,last_name=l_name,first_name=f_name)
+			u.save()
+			
+		p = Play(user=u,score=score)
+		p.save()
+		return p
