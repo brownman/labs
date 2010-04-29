@@ -3,7 +3,7 @@ from piston.utils import rc
 
 from fbg.models import User, Play
 
-def ScoreHandler(request):
+class ScoreHandler(BaseHandler):
 	allowed_methods = ('POST',)
 
 	def create(self,request):
