@@ -216,7 +216,7 @@ Car = function(root, x, y, speed, direction, color) {
         	}
     	} else {
     		this.node.x += this.speed;
-    		if((this.node.x)>WIDTH-10){
+    		if((this.node.x)>WIDTH){
         		this.destroy();
         	}
     	}
@@ -235,8 +235,8 @@ CarDispatcher = function(root, x, y, speed, direction) {
 	this.carColor = [Math.floor(Math.random()*255),Math.floor(Math.random()*255),Math.floor(Math.random()*255),1.0];
 
     this.initialize = function(root, x, y, speed, direction) {
-		this.speed = Math.floor(Math.random()*10)+1;	
-		this.space_between_cars = Math.random()*50+150
+		this.speed = Math.floor(Math.random()*10)+2;	
+		this.space_between_cars = 150 // Math.random()*50+150
 		this.y = y
 		this.x = x
 		this.direction = direction; // LEFT or RIGHT
@@ -287,7 +287,7 @@ CarDispatcher = function(root, x, y, speed, direction) {
     			this.new_car()
     			
     		// opposite of above condition, for cars moving to the right.  If there is enough spacing add another car
-    		} else if (this.direction=="RIGHT" && last_car.node.x > (this.space_between_cars)){
+    		} else if (this.direction=="RIGHT" && last_car.node.x > this.space_between_cars){
     			this.new_car()
     		}
         }
@@ -356,7 +356,7 @@ Scoreboard = function(root){
 	}
 	
 	this.scoreSafeFrog = function(){
-		this.score += 10;
+		this.score += POINTS_FOR_SAFE_FROG;
 		this.updateStats();
 	}
 
