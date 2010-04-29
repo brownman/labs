@@ -236,7 +236,7 @@ CarDispatcher = function(root, x, y, speed, direction) {
 
     this.initialize = function(root, x, y, speed, direction) {
 		this.speed = Math.floor(Math.random()*10)+2;	
-		this.space_between_cars = 150 // Math.random()*50+150
+		this.space_between_cars = Math.random()*50+150
 		this.y = y
 		this.x = x
 		this.direction = direction; // LEFT or RIGHT
@@ -491,7 +491,7 @@ FroggerGame = Klass(CanvasNode, {
 		nextDispatchYCoord += 50; // extra space between sections
 		// Instantiate the Car Dispatchers (not actually drawn on canvas, just placeholders where the cars come from)
 		for (var i=0,ii=this.numBotDispatchers;i<ii;i++){
-			this.carDispatchers.push(new CarDispatcher(this, 0, nextDispatchYCoord,CAR_DEFAULT_SPEED, "RIGHT"));
+			this.carDispatchers.push(new CarDispatcher(this, -100, nextDispatchYCoord,CAR_DEFAULT_SPEED, "RIGHT"));
 			nextDispatchYCoord += 60;
 		}
 
