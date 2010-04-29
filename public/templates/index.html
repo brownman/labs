@@ -1,10 +1,11 @@
 <html>
 <head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+
 	<script type="text/javascript" src="/site_media/script/cake.js"></script>
 	<script type="text/javascript" src="/site_media/script/frogger.js"></script>
-	
+
 	<!-- FB Connect Crap -->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 	<script src="http://connect.facebook.net/en_US/all.js"></script>
 	<script type="text/javascript">
 	  $(document).ready(function(){
@@ -13,17 +14,34 @@
 			FB.Event.subscribe('auth.sessionChange', function(response) {
 				if (response.session) {
 					$("#fbLogin").hide();
-					init(); // Start the Game if we're logged in
+					$("#startGame").show();
 				} else {
-					$("#fbLogin").hide();
+					$("#fbLogin").show();
 				}
 			});
+			
+			FB.getLoginStatus(function(response) {
+			  if (response.session) {
+			    $("#fbLogin").hide();
+				$("#startGame").show();
+			  } else {
+			    $("#fbLogin").show();
+			  }
+			});
+			
+			function froggerInit(){
+				FB.api('/me', function(response) {
+				  init(response); // initialize new game with user object
+ 				});
+			}
 		});
 	</script>
 	<!-- END FB Connect Crap -->
 	
 	<style type="text/css">
-		body {width:100%;height:100%;margin:0;padding:0;position:relative;}
+		body {width:100%;height:100%;margin:0;padding:0;position:relative;text-align:center;}
+		
+		#fbLogin {width:200px;margin:30px auto;}
 		
 		p, a {font-size:1.5em;color:#fff;font-family:Arial;font-weight:bold;padding:10px;background-color:#000;position:fixed;}
 		#score {bottom:0px;right:0px;}
@@ -40,10 +58,11 @@
 
 <body>
 	<div id="fbLogin">
+		<h1>Frogger</h1>
 		<fb:login-button></fb:login-button>
 	</div>
 
-	<a href="#" id="startOver" onclick="init();">Start Over</a>
+	<a href="#" id="startOver" onclick="froggerInit();">Start Game</a>
 	
 	<p id="level"></p>
 	<p id="timer"></p>
