@@ -77,23 +77,23 @@ Frog = function(root, x, y) {
 
     this.initialize = function(root, x, y) {
     	
-    	this.pwidth = 20;
-        this.pheight = 20;
+    	this.pwidth = 30;
+        this.pheight = 28;
         
-        this.node = new Rectangle(this.pwidth, this.pheight)
-        //var img = new Image();
-    	//img.src = 'frogger.png'
-    	//this.node = new ImageNode(img)
+        //this.node = new Rectangle(this.pwidth, this.pheight)
+        var img = new Image();
+    	img.src = '/site_media/images/frog2.png'
+    	this.node = new ImageNode(img)
     	
         this.node.x = x - this.pwidth/2
         this.node.y = y - this.pheight/2
         this.node.height = this.pheight
         this.node.width = this.pwidth
         
-        this.node.w = 20
-        this.node.h = 20
-        this.node.fill = FROG_FILL
-        this.node.fillOpacity = FROG_FILL_OPACITY
+        this.node.w = 30
+        this.node.h = 28
+        //this.node.fill = FROG_FILL
+        //this.node.fillOpacity = FROG_FILL_OPACITY
         this.node.zIndex = 1
 
         this.eraser = new Rectangle(this.pwidth, this.pheight)
@@ -169,33 +169,230 @@ Frog = function(root, x, y) {
 }
 
 
-Car = function(root, x, y, speed, direction, color) {
+CarFactory = {
+	
+	makeCar: function(type,x,y,direction,color){
+		switch(type){
+			case "TRUCK":
+				return this._makeTruck(x,y,direction,color);
+				break;
+			case "RACECAR":
+				return this._makeRaceCar(x,y,direction,color);
+				break;
+			case "PLAINCAR":
+				return this._makePlainCar(x,y,direction,color);
+				break;
+		}
+	},
+	
+	_makeCarWrapper: function(x,y,w,h){
+		var wrapper = new Rectangle(w, h)
+        wrapper.x = x
+        wrapper.y = y
+        wrapper.w = w
+        wrapper.h = h
+        return wrapper;
+	},
+	
+	_makeTruck: function(x, y, direction,color){
+		var base_w = 110;
+		var base_h = 40;
+		
+		var car = this._makeCarWrapper(x,y,base_w,base_h)
+		
+		// update w and x based on direction
+		var w = (direction=="LEFT") ? base_w : -base_w;
+		var h = base_h;
+		x = (direction=="LEFT") ? 0 : base_w;
+        
+		var path1 = new Path([
+          ['moveTo', [x+0		,h/4]],
+	      ['lineTo', [x+2*w/11	,h/4]],
+	      ['lineTo', [x+2*w/11	,0]],
+	      ['lineTo', [x+4*w/11	,0]],
+	      ['lineTo', [x+4*w/11	,h/4]],
+	      ['lineTo', [x+5*w/11	,h/4]],
+	      ['lineTo', [x+5*w/11	,0]],
+	      ['lineTo', [x+w		,0]],
+	      ['lineTo', [x+w		,h]],
+	      ['lineTo', [x+5*w/11	,h]],
+	      ['lineTo', [x+5*w/11	,3*h/4]],
+	      ['lineTo', [x+4*w/11	,3*h/4]],
+	      ['lineTo', [x+4*w/11	,h]],
+	      ['lineTo', [x+2*w/11	,h]],
+	      ['lineTo', [x+2*w/11	,3*h/4]],
+	      ['lineTo', [x+0		,3*h/4]],
+	      ['lineTo', [x+0		,h/4]]
+        ],{
+        	fill: color
+        })
 
-    this.initialize = function(root, x, y, speed, direction, color) {
-    	var w = Math.floor(Math.random()*100+50);
+		path1.w = w;
+		path1.h = h;
+		car.append(path1)
+		return car;
+	},
+	
+	_makeRaceCar: function(x, y, direction,color){
+		var base_w = 80;
+		var base_h = 30;
+		
+		var car = this._makeCarWrapper(x,y,base_w,base_h)
+		
+		// Reinitialize w / h / x, based on direction
+		var w = (direction=="LEFT") ? base_w : -base_w;
 		var h = 40;
+		x = (direction=="LEFT") ? 0 : base_w;
+				
+		//Car body
+		var path1 = new Path([
+		    ['moveTo', [x+0,h]],
+		    ['lineTo', [x+15*w/120,h]],
+		    ['lineTo', [x+15*w/120,55*h/70]],
+		    ['lineTo', [x+100*w/120,55*h/70]],
+		    ['lineTo', [x+100*w/120,h]],
+		    ['lineTo', [x+w,h]],
+		    ['lineTo', [x+w,0]],
+		    ['lineTo', [x+100*w/120,0]],
+		    ['lineTo', [x+100*w/120,15*h/70]],
+		    ['lineTo', [x+15*w/120,15*h/70]],
+		    ['lineTo', [x+15*w/120,0]],
+		    ['lineTo', [x+0,0]]
+	    ],{
+	    	fill:color
+	    });
+	    car.append(path1);
+	    
+	    //Bottom Left Tire
+	    var path2 = new Path([
+		    ['moveTo', [x+w/6,55*h/70]],
+		    ['lineTo', [x+w/3,55*h/70]],
+		    ['lineTo', [x+w/3,65*h/70]],
+		    ['lineTo', [x+w/6,65*h/70]],
+	    ],{
+	    	fill:"#000"
+	    });
+		car.append(path2);
+	      
+	    //Top Left Tire
+	    var path3 = new Path([
+		    ['moveTo', [x+w/6,5*h/70]],
+		    ['lineTo', [x+w/3,5*h/70]],
+		    ['lineTo', [x+w/3,15*h/70]],
+		    ['lineTo', [x+w/6,15*h/70]]
+		],{
+			fill:"#000"
+		});
+	    car.append(path3);
+		
+	    //Top Right Tire
+	    var path4 = new Path([
+		    ['moveTo', [x+7*w/12,15*h/70]],
+		    ['lineTo', [x+7*w/12,0]],
+		    ['lineTo', [x+3*w/4,0]],
+		    ['lineTo', [x+3*w/4,15*h/70]]
+		],{
+			fill:"#000"
+		});
+	    car.append(path4)
+		
+	    //Bottom Right Tire
+	    var path5 = new Path([
+		    ['moveTo', [x+7*w/12,55*h/70]],
+		    ['lineTo', [x+3*w/4,55*h/70]],
+		    ['lineTo', [x+3*w/4,h]],
+		    ['lineTo', [x+7*w/12,h]]
+		],{
+			fill:"#000"
+		});
+		car.append(path5)
+	    
+	    //Racing Strip
+	    var path6 = new Path([
+		    ['moveTo', [x+0,3*h/7]],
+		    ['lineTo', [x+w,3*h/7]],
+		    ['lineTo', [x+w,4*h/7]],
+		    ['lineTo', [x+0,4*h/7]]
+		],{
+			fill:"#2E3192"
+		});
+		car.append(path6)
+	    
+	    //Windshield
+	    var path7 = new Path([
+		    ['moveTo', [x+w/2,2*h/7]],
+		    ['lineTo', [x+2*w/3,2*h/7]],
+		    ['lineTo', [x+2*w/3,5*h/7]],
+		    ['lineTo', [x+w/2,5*h/7]]
+		],{
+			fill:"#000"
+		});
+	    car.append(path7)
+		
+		return car
+	},
+	
+	_makePlainCar: function(x, y, direction,color){
+		var base_w = 70;
+		var base_h = 40;
+		
+		var car = this._makeCarWrapper(x,y,base_w,base_h)
+		
+		// Reinitialize w / h / x, based on direction
+		var w = (direction=="LEFT") ? base_w : -base_w;
+		var h = base_h;
+		x = (direction=="LEFT") ? 0 : base_w;
+				
+		//Car body
+		var path1 = new Path([
+		    ['moveTo', [x+0,h]],
+		    ['moveTo', [x+1*w/7,0]],
+			['lineTo', [x+2*w/7,0]],
+			['lineTo', [x+2*w/7,h/8]],
+			['lineTo', [x+3*w/7,h/8]],
+			['lineTo', [x+3*w/7,0]],
+			['lineTo', [x+5*w/7,0]],
+			['lineTo', [x+5*w/7,h/8]],
+			['lineTo', [x+6*w/7,h/8]],
+			['lineTo', [x+6*w/7,0]],
+			['quadraticCurveTo', [x+w,0, x+w,h/4]],
+			['lineTo', [x+w,3*h/4]],
+			['quadraticCurveTo', [x+w,h, x+6*w/7,h]],
+			['lineTo', [x+6*w/7,h]],
+			['lineTo', [x+6*w/7,35*h/40]],
+			['lineTo', [x+5*w/7,35*h/40]],
+			['lineTo', [x+5*w/7,h]],
+			['lineTo', [x+3*w/7,h]],
+			['lineTo', [x+3*w/7,35*h/40]],
+			['lineTo', [x+2*w/7,35*h/40]],
+			['lineTo', [x+2*w/7,h]],
+			['lineTo', [x+w/7,h]],
+			['quadraticCurveTo', [x+0,h/2, x+1*w/7,0]]
+		],{
+			fill: color
+		});
+		
+		car.append(path1);
+		return car;
+	}
+}
 
+Car = function(root, x, y, speed, direction, color, type) {
+
+    this.initialize = function(root, x, y, speed, direction, color, type) {
 		this.speed = speed
 		this.direction = direction
 
-        this.node = new Rectangle(w, h)
-        this.node.x = x
-        this.node.y = y
-        this.node.w = w
-        this.node.h = h
-        
-        this.node.fill = color
-        this.node.fillOpacity = CAR_FILL_OPACITY
-        this.node.zIndex = 2
-        
-        this.eraser = new Rectangle(w,h)
+        this.node = CarFactory.makeCar(type,x, y, direction,color)
+	    this.root.append(this.node)
+	    
+        this.eraser = new Rectangle(this.node.w,this.node.h)
         this.eraser.x = x
         this.eraser.y = y
         this.eraser.fill = GAME_ERASE_COLOR
         this.eraser.fillOpacity = 0
         this.eraser.zIndex = 0
         
-        this.root.append(this.node)
         this.root.append(this.eraser)
     }
 
@@ -203,6 +400,7 @@ Car = function(root, x, y, speed, direction, color) {
         this.root.unregister(this)
     	this.node.removeSelf()
     	this.eraser.removeSelf()
+
     }
 
 
@@ -225,16 +423,16 @@ Car = function(root, x, y, speed, direction, color) {
 
     this.root = root
     this.speed = speed
-    this.initialize(root, x, y, speed, direction, color)
+    this.initialize(root, x, y, speed, direction, color, type)
 }
 
 
-CarDispatcher = function(root, x, y, speed, direction) {
+CarDispatcher = function(root, x, y, speed, direction,type) {
 	this.speed = CAR_DEFAULT_SPEED;
 	this.space_between_cars = 150;
 	this.carColor = [Math.floor(Math.random()*255),Math.floor(Math.random()*255),Math.floor(Math.random()*255),1.0];
 
-    this.initialize = function(root, x, y, speed, direction) {
+    this.initialize = function(root, x, y, speed, direction,type) {
 		this.speed = Math.floor(Math.random()*10)+2;	
 		this.space_between_cars = Math.random()*50+150
 		this.y = y
@@ -245,7 +443,7 @@ CarDispatcher = function(root, x, y, speed, direction) {
     }
 
     this.new_car = function() {
-	    var car = new Car(this, this.x, this.y, this.speed, this.direction, this.carColor)
+	    var car = new Car(this, this.x, this.y, this.speed, this.direction, this.carColor,type)
 	    this.cars.push(car);
 	    this.num_cars = this.cars.length;
     }
@@ -295,7 +493,7 @@ CarDispatcher = function(root, x, y, speed, direction) {
     }
 
     this.root = root
-    this.initialize(root, x, y, speed, direction)
+    this.initialize(root, x, y, speed, direction,type)
 }
 
 FrogReceiver = function(root,x,y,w,h){
@@ -400,7 +598,6 @@ Scoreboard = function(root){
 	}
 
 	this.sendFinalScore = function(){
-		console.log(this.root.user);
 		
 		ajaxData = {
 			score: this.score,
@@ -443,10 +640,6 @@ FroggerGame = Klass(CanvasNode, {
 		// Add the scoreboard
 		this.scoreboard = new Scoreboard(this)
 		
-		// Add the lanes of traffic
-		this.numTopDispatchers = 3;
-		this.numBotDispatchers = 2;
-		
 		// number of frogs + targets at the top for frogs to reach
 		this.numFrogs = 5;
 		
@@ -481,20 +674,16 @@ FroggerGame = Klass(CanvasNode, {
 		}
 		
 		
-		var nextDispatchYCoord = 0+this.frogReceiverHeight;
-		// Instantiate the Car Dispatchers (not actually drawn on canvas, just placeholders where the cars come from)
-		for (var i=0, ii=this.numTopDispatchers;i<ii;i++){
-			this.carDispatchers.push(new CarDispatcher(this, WIDTH, nextDispatchYCoord,CAR_DEFAULT_SPEED, "LEFT"));
-			nextDispatchYCoord += 60;
-		}
+		var offset = 0+this.frogReceiverHeight;
+		// Instantiate the Car Dispatchers on top (not actually drawn on canvas, just placeholders where the cars come from)
+		this.carDispatchers.push(new CarDispatcher(this, WIDTH, offset,CAR_DEFAULT_SPEED, "LEFT","RACECAR"));
+		this.carDispatchers.push(new CarDispatcher(this, WIDTH, offset+60,CAR_DEFAULT_SPEED, "LEFT","TRUCK"));
+		this.carDispatchers.push(new CarDispatcher(this, WIDTH, offset+120,CAR_DEFAULT_SPEED, "LEFT","PLAINCAR"));
 		
-		nextDispatchYCoord += 50; // extra space between sections
 		// Instantiate the Car Dispatchers (not actually drawn on canvas, just placeholders where the cars come from)
-		for (var i=0,ii=this.numBotDispatchers;i<ii;i++){
-			this.carDispatchers.push(new CarDispatcher(this, -100, nextDispatchYCoord,CAR_DEFAULT_SPEED, "RIGHT"));
-			nextDispatchYCoord += 60;
-		}
-
+		this.carDispatchers.push(new CarDispatcher(this, -100, offset+220,CAR_DEFAULT_SPEED, "RIGHT","TRUCK"));
+		this.carDispatchers.push(new CarDispatcher(this, -100, offset+280,CAR_DEFAULT_SPEED, "RIGHT","RACECAR"));
+		
 		// Start the animation
         this.addFrameListener(this.animate)
 	},
@@ -571,6 +760,7 @@ FroggerGame = Klass(CanvasNode, {
     		for(var c=0,cc=cars.length;c<cc;c++){
     			if (NodesCollided(cars[c].node,this.frog.node)){
     				this.recordDeadFrog();
+    				break;
     			}
     		}
     	}
@@ -582,8 +772,10 @@ FroggerGame = Klass(CanvasNode, {
 					if (this.frogReceivers[r].isEmpty){
 						this.frogReceivers[r].holdFrog(this.frog);
 						this.recordSafeFrog();
+						break;
 					} else {
 						this.recordDeadFrog();
+						break;
 					}
 				}
 			}
