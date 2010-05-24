@@ -4,19 +4,19 @@
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>'Home' in Space: A 3D Music based web game</title>
+	<title>Space Cannon 3D: A music-driven, 3D Javascript game</title>
 	<meta name="robots" content="NOFOLLOW,NOINDEX">
 	<meta name="description" content="A 3D Javascript/HTML5 game driven by an Echonest audio analysis">
-	<meta name="keywords" content="brian,stoner,tech,labs,javascript,3d,html5,echonest,music,shutters,home,space,game,web game,chrome">
+	<meta name="keywords" content="brian,stoner,space,cannon,tech,labs,javascript,3d,html5,echonest,music,shutters,home,space,game,web game,chrome">
 	<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz' rel='stylesheet' type='text/css'>
-	<link href="/site_media/homeinspace/style/game.css" rel="stylesheet" type="text/css" />
+	<link href="/site_media/spacecannon/style/game.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <div id="pageWrapper">
 	<div id="headerWrapper">
 		<div id="headerInner">
-			<h1>'Home' in Space</h1>
-			<h2>A 3D music-based web game <span class='headerName'> May 23, 2010</span></h2>
+			<h1>Space Cannon 3D</h1>
+			<h2>A music-driven, 3D Javascript game <span class='headerName'> May 23, 2010</span></h2>
 		</div>
 	</div>
 	<div id="bodyWrapper">
@@ -25,7 +25,7 @@
 				<h2>The Music:</h2>
 				<h3>'Home' by shutters</h3>
 				<a href="http://click.linksynergy.com/fs-bin/stat?id=8oUygtvMHo4&offerid=146261&type=3&subid=0&tmpid=1826&RD_PARM1=http%253A%252F%252Fitunes.apple.com%252Fus%252Falbum%252Fspin-it%252Fid343800518%253Fi%253D343800530%2526uo%253D6%2526partnerId%253D30" target="itunes_store" title="download on iTunes">
-				<img src='/site_media/homeinspace/images/shutters_cropped_2.jpg' /></a>
+				<img src='/site_media/spacecannon/images/shutters_cropped_2.jpg' /></a>
 				<p>Shutters began in 2007 as a vehicle for the original music of Emmett Lindsay, a Philadelphia based singer-songwriter.</p>
 				<p>Evolving as a rhythm-driven band, Shutters animates the broad mosaic of melodies and lyrics that Lindsay assembles. Rooted in contemporary rock, their varied harmonies allude to jazz and classical influences. All band members collaborate on arrangements.</p>
 
@@ -42,11 +42,11 @@
 				
 			</div>
 			<div id="techCol">
-				<a href="/home-in-space/play/" title="Play Game"><img src='/site_media/homeinspace/images/game_thumbnail_1.jpg' />
-				<a id="playGameButton" href="/home-in-space/play/" title="Play Game">Play Game</a>
+				<a href="/spacecannon/play/" title="Play Game"><img src='/site_media/spacecannon/images/game_thumbnail_1.jpg' />
+				<a id="playGameButton" href="/spacecannon/play/" title="Play Game">Play Game</a>
 				
 				<p>WARNING:  The game needs a lot of processing power, and runs best in the latest version of <a href="http://chrome.google.com/" title="Download Chrome">Google Chrome</a> or Safari.</p>
-
+				<p>It will run in Internet Explorer if you download the <a href="http://google.com/chromeframe">Google Chrome Frame Plugin</a></p>
 				<h2>About:</h2>
 				<p>The goal of the game is to shoot as many of the flying space particles as you can before the song is over. Moving the mouse aims the cannon and clicking will fire a shot.</p>
 				<p>This game was built to see how some of the latest web technologies standards can be used to create
@@ -58,7 +58,7 @@
 						<li>3. The space particles are released in line with the beats of the song.  Initially they're only released at the start of every other measure, then on the 1's of each measure, and then eventually on the 1's and 3's of each measure.  The analysis from echonest came back saying the song was in 4/4 time, but I think the song is really in 6/8 time at a faster tempo.  I stuck with the echonest analysis using 4/4 time because it still fits well, and a faster tempo would have probably made things hectic.</li>
 						<li>4. The background changes color slightly with each major segment change of the song as identified by echonest.  I had to massage these a little cause echonest missed a few, but still provided a good starting point.</li>
 					</ul>
-				<p>Unfortunately the intense rendering and gameplay require a lot of processing power, and in my tests the Webkit javascript engine (Google Chrome and Safari) was the only one that could handle it consistently.  Firefox will run it, but once it has to start trying to do the collision detection calc's it really slows down and stutters.  I'm definitely new to 3D animation and gaming so there's probably better ways to do some of the calc's and so I may look at trying to improve performance.  If anyone has tips/suggestions let me know.</p>
+				<p>Unfortunately the rendering and gameplay require a lot of processing power, and in my tests the Webkit javascript engine (Google Chrome and Safari) was the only one that could handle it consistently.  Firefox will run it, but once it has to start trying to do the collision detection calc's it really slows down and stutters.  I'm definitely new to 3D animation and gaming so there's probably better ways to do some of the calc's and so I may look at trying to improve performance.  If anyone has tips/suggestions let me know.</p>
 				<h2>The Technology:</h2>
 				<p>Here's what I used to pull the game together:</p>
 					<ul>

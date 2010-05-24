@@ -9,7 +9,7 @@ from django.conf import settings
 urlpatterns = patterns('',
     # Add labs here:
 	(r'^frogger/', include('frogger.urls')),
-    (r'^home-in-space/', include('homeinspace.urls')),
+    (r'^spacecannon/', include('homeinspace.urls')),
     
 	# Admin docs:
     (r'^admin/', include(admin.site.urls)),
