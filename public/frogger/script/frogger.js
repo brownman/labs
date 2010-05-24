@@ -82,7 +82,7 @@ Frog = function(root, x, y) {
         
         //this.node = new Rectangle(this.pwidth, this.pheight)
         var img = new Image();
-    	img.src = '/site_media/images/frog2.png'
+    	img.src = '/site_media/frogger/images/frog2.png'
     	this.node = new ImageNode(img)
     	
         this.node.x = x - this.pwidth/2

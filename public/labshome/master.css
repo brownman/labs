@@ -15,7 +15,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 	vertical-align: baseline;
 	background: transparent;
 	text-decoration:none;
-	color:#222;
+	color:#333;
 }
 body {
 	line-height: 1.4;
@@ -74,7 +74,8 @@ a:hover {color:#990000;}
 		#headerTop, #headerBottom {margin-left:auto;margin-right:auto;position:relative;width:900px;padding:20px 0;}
 		#headerTop {height:40px;}
 
-		#headerTop h1 {background: url('/site_media/labshome/labsIcon.jpg') 0px right no-repeat;display:inline;padding-right:44px;}
+		#headerTop h1 {display:inline;padding-right:5px;}
+		#headerTop img {top:3px;position:relative;}
 		#headerTop span {font-size:200%;color:#dcdcdc;padding-left:5px;}
 		
 	#bodyWrapper {width:100%;position:relative;clear:both;margin-top:20px;}
