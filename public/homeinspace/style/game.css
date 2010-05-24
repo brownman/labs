@@ -1,0 +1,127 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+	text-decoration:none;
+	color:#fff;
+}
+body {
+	background:#000;
+	width:100%;
+	height:100%;
+	margin: 0px;
+	position:relative;
+	font-family:"Yanone Kaffeesatz",Georgia,serif;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+/* remember to define focus styles! */
+:focus {
+	outline: 0;
+}
+
+/* remember to highlight inserts somehow! */
+ins {
+	text-decoration: none;
+}
+del {
+	text-decoration: line-through;
+}
+
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+h1 {font-size:280%;}
+h2 {font-size:200%;}
+h3 {font-size:180%;}
+h4 {font-size:170%;}
+h5 {font-size:150%;}
+h6 {font-size:130%;}
+
+h1, h2, h3, h4, h5, h6, p {padding-bottom:5px;}
+
+a {color:#ffff99;}
+a:hover {color:#ffff00;}
+
+.clear {clear:both;}
+
+/* Main Structure for landing page */
+#pageWrapper {width:100%;height:100%;display:table;margin-bottom:50px;}
+
+	#headerWrapper {width:100%;position:relative;}
+		#headerInner {margin-left:auto;margin-right:auto;position:relative;width:900px;padding:20px 0;}
+		.headerName {font-size:18px;padding-left:10px;color:#a9a9a9;}
+
+	#bodyWrapper {width:100%;position:relative;clear:both;margin-top:20px;}
+		#bodyInner {margin-left:auto;margin-right:auto;width:900px;}
+		
+			#musicCol {float:right;width:250px;}
+				#musicCol img {width:250px;margin:10px 0;}
+				
+			#techCol {float:left;width:600px;padding:0 20px 0 0;border-right:1px dotted #464646;}
+
+				#playGameButton {font-size:48px;display:block;width:600px;text-align:center;margin:10px;}
+				
+				#techCol h2 {padding:15px 0;}
+				
+				#techCol ul {margin-bottom:15px;}
+				#techCol li {margin-top:10px;}
+		#footer {float:left;clear:both;height:50px;}
+				
+/* Actual game html styles */
+	#score {position:fixed;bottom:5px;right:5px;font-size:48px;}
+	#timer {position:fixed;top:5px;right:5px;font-size:48px;}
+	#itunesLink {position:fixed;bottom:0px;left:10px;z-index:10000;}
+	#intro1 {font-size:32px;position:absolute;}
+	#intro2, #intro3, #intro4, #level2, #level3, #bonus, #gameOver
+		{font-size:22px;display:none;position:absolute;width:400px;text-align:center;}
+	#overlay {width:100%;height:100%;position:relative;z-index:10001;}
+
+
+.textOverlay {
+	padding:10px 15px;background-color:#000;font-family:Helvetica,Arial,sans-serif;color:#fff;z-index:10000;font-weight:bold;
+	display:inline;
+}
+.roundedCorners {
+	 -moz-border-radius: 12px; /* FF1+ */
+  -webkit-border-radius: 12px; /* Saf3+, Chrome */
+          border-radius: 12px; /* Opera 10.5, IE 9 */
+}
+.transparent {
+	opacity: .75; /* Standard: FF gt 1.5, Opera, Safari */
+	filter: alpha(opacity=75); /* IE lt 8 */
+	-ms-filter: "alpha(opacity=75)"; /* IE 8 */
+	-khtml-opacity: .75; /* Safari 1.x */
+	-moz-opacity: .75; /* FF lt 1.5, Netscape */
+}
+
+.noSelection {
+    -moz-user-select: none; // mozilla browsers
+    -khtml-user-select: none; // webkit browsers
+}

@@ -1,0 +1,97 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+	text-decoration:none;
+	color:#222;
+}
+body {
+	line-height: 1.4;
+	font-family:'Yanone Kaffeesatz',Georgia,Times,serif;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+/* remember to define focus styles! */
+:focus {
+	outline: 0;
+}
+
+/* remember to highlight inserts somehow! */
+ins {
+	text-decoration: none;
+}
+del {
+	text-decoration: line-through;
+}
+
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+h1 {font-size:280%;}
+h2 {font-size:230%;}
+h3 {font-size:180%;}
+h4 {font-size:170%;}
+h5 {font-size:150%;}
+h6 {font-size:130%;}
+
+h1, h2, h3, h4, h5, h6, p {padding-bottom:10px;font-weight:normal;}
+
+a {color:#660000;}
+a:hover {color:#990000;}
+
+.clear {clear:both;}
+
+/* Main Structure */
+#pageWrapper {width:100%;height:100%;display:table;}
+
+	#headerWrapper {width:100%;position:relative;}
+		#headerTop, #headerBottom {margin-left:auto;margin-right:auto;position:relative;width:900px;padding:20px 0;}
+		#headerTop {height:40px;}
+
+		#headerTop h1 {background: url('/site_media/labshome/labsIcon.jpg') 0px right no-repeat;display:inline;padding-right:44px;}
+		#headerTop span {font-size:200%;color:#dcdcdc;padding-left:5px;}
+		
+	#bodyWrapper {width:100%;position:relative;clear:both;margin-top:20px;}
+		#bodyInner {margin-left:auto;margin-right:auto;width:900px;}
+
+
+
+
+
+/* Form Controls */
+form label {}
+form label {font-size:120%;margin-bottom:5px;}
+form input[type=text], form textarea {font-size:120%;font-family:Helvetica,Arial,sans-serif;color:#6a6a6a;}
+input[type=text] {height:20px;border:1px solid #dcdcdc;padding:5px;}
+textarea {border:1px solid #dcdcdc;color:#464646;padding:5px;}
+input[type=submit] {background-color:#f1f5f5;border:1px solid #dcdcdc;font-size:140%;
+					color:#464646;padding: 5px 15px 5px 15px;cursor:pointer;
+					-moz-border-radius: 5px;-khtml-border-radius: 5px;-webkit-border-radius: 5px;}
+input[type=submit]:hover {border:1px solid #a9a9a9;color:#000;}
+

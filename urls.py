@@ -4,20 +4,22 @@ from django.conf.urls.defaults import *
 from django.contrib import admin
 admin.autodiscover()
 
-from fbg.views import leaderboard
+from django.conf import settings
 
 urlpatterns = patterns('',
-    # Example:
-    (r'^api/', include('fbg.api.urls')),
-
-    (r'^leaderboard/', leaderboard),
-
-    (r'^$', "django.views.generic.simple.direct_to_template", {"template":"index.html"}),
-
-    # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
-    # to INSTALLED_APPS to enable admin documentation:
-    # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
+    # Add labs here:
+	(r'^frogger/', include('frogger.urls')),
+    (r'^home-in-space/', include('homeinspace.urls')),
+    
+	# Admin docs:
     (r'^admin/', include(admin.site.urls)),
+
+	# Main Labs Page:
+	(r'^$', "django.views.generic.simple.direct_to_template", {"template":"labs_home.html"}),
+)
+
+if (settings.PROD==False):
+	urlpatterns += patterns('',
+	(r'^site_media/(?P<path>.*)$', 'django.views.static.serve',
+        {'document_root': '/django_trunk/django/bin/labs/public/', 'show_indexes': True}),
 )
