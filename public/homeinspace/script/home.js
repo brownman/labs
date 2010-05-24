@@ -684,7 +684,7 @@ function init()
     }
 	
 	CFInstall.check({
-		mode: "overlay"
+		mode: "inline"
 	});
 	
 	jsGameInstance = new jsGame();
