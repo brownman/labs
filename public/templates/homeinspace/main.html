@@ -4,7 +4,9 @@
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>'Home' in Space: A 3D Javascript Musical Game</title>
+	<title>'Home' in Space: A 3D Music based web game</title>
+	<meta name="description" content="A 3D Javascript/HTML5 game driven by an Echonest audio analysis">
+	<meta name="keywords" content="brian,stoner,tech,labs,javascript,3d,html5,echonest,music,shutters,home,space,game,web game,chrome">
 	<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz' rel='stylesheet' type='text/css'>
 	<link href="/site_media/homeinspace/style/game.css" rel="stylesheet" type="text/css" />
 </head>
@@ -50,12 +52,12 @@
 					new kinds of interactive experiences natively in a web browser.</p>
 				<p>Most of the gameplay is driven by acoustical data from the song:</p>
 					<ul>
-						<li>The horizontal rows in the blue terrain at the bottom will move higher or lower with the loudness of the song.  The horizon of the terrain representing the current place in the song.</li>
-						<li>Spikes in the terrain will occur within each row at different places along the x-axis depending on the current pitch of the song (from C on the left, to B on the right).</li>
-						<li>The space particles are released in line with the beats of the song.  Initially only released on the 1's, then on the 1's and 3's, then eventually on each beat.  The analysis from echonest came back saying the song was in 4/4 time, but I think the song is really in 6/4 time at a faster tempo.  I stuck with the echonest analysis using 4/4 time because it still fits well, and a faster tempo would have probably made things hectic.</li>
-						<li>The background changes color slightly with each major segment change of the song as identified by echonest.  I had to massage these a little cause echonest missed a few, but still provided a good starting point.</li>
+						<li>1. The horizontal rows in the blue terrain at the bottom will move higher or lower with the loudness of the song.  The horizon of the terrain representing the current place in the song.</li>
+						<li>2. Spikes in the terrain will occur within each row at different places along the x-axis depending on the current pitch of the song (from C on the left, to B on the right).</li>
+						<li>3. The space particles are released in line with the beats of the song.  Initially they're only released at the start of every other measure, then on the 1's of each measure, and then eventually on the 1's and 3's of each measure.  The analysis from echonest came back saying the song was in 4/4 time, but I think the song is really in 6/8 time at a faster tempo.  I stuck with the echonest analysis using 4/4 time because it still fits well, and a faster tempo would have probably made things hectic.</li>
+						<li>4. The background changes color slightly with each major segment change of the song as identified by echonest.  I had to massage these a little cause echonest missed a few, but still provided a good starting point.</li>
 					</ul>
-				<p>Unfortunately the intense animations and gameplay require a lot of processing power, and in my tests the Webkit javascript engine (Google Chrome and Safari) was the only one that could handle it consistently.  Firefox will run it, but once it has to start trying to do the collision detection calc's it really slows down and stutters.  I'm definitely new to 3D animation and gaming so there's probably better ways to do some of the calc's and so I may look at trying to improve performance.  If anyone has tips/suggestions let me know.</p>
+				<p>Unfortunately the intense rendering and gameplay require a lot of processing power, and in my tests the Webkit javascript engine (Google Chrome and Safari) was the only one that could handle it consistently.  Firefox will run it, but once it has to start trying to do the collision detection calc's it really slows down and stutters.  I'm definitely new to 3D animation and gaming so there's probably better ways to do some of the calc's and so I may look at trying to improve performance.  If anyone has tips/suggestions let me know.</p>
 				<h2>The Technology:</h2>
 				<p>Here's what I used to pull the game together:</p>
 					<ul>
@@ -64,7 +66,6 @@
 						<li><a href="http://dev.w3.org/html5/spec/Overview.html" title="HTML5 spec">HTML5</a> Everyone's favorite buzzword of the minute.  The game uses the canvas and audio elements.</li>
 					</ul>
 				<p>There's no server side code going on here, so you can get all the source just from inspecting, though I may throw it up on github.  There's no license, so feel free to do whatever you want with any of it.
-				<p>Thanks,</p>
 				<p><a href="http://brian-stoner.com">Brian</a> (<a href="http://twitter.com/bsstoner" title="twitter">@bsstoner</a>)</p>
 			</div>
 		</div>
