@@ -682,5 +682,9 @@ function init()
         //return;
     }
 	
+	CFInstall.check({
+		mode: "overlay"
+	});
+	
 	jsGameInstance = new jsGame();
 }
