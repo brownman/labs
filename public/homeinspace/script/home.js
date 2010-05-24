@@ -676,14 +676,16 @@ function init()
 	// Only allow to run for browsers that can handle it (basically just not ie)
     var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
     var is_safari = navigator.userAgent.toLowerCase().indexOf('safari') > -1;
+	var is_ie = navigator.userAgent.toLowerCase().indexOf('explorer') > -1;
     //var is_gecko = navigator.userAgent.toLowerCase().indexOf('gecko') > -1;
-    if(!is_chrome && !is_safari){
-        //alert("Sorry, the Javascript engine in your Internet Browser can't handle this game. \n\nThis site works best with the latest version of Google Chrome or Safari.")
-        //return;
+    if(!is_chrome && !is_safari && !is_ie){
+        alert("Sorry, the Javascript engine in your Browser can't handle this game. \n\nThis site works best with the latest version of Google Chrome.")
+        return;
     }
 	
 	CFInstall.check({
-		mode: "overlay"
+		mode: "overlay",
+		node: "chrome_frame"
 	});
 	
 	jsGameInstance = new jsGame();
