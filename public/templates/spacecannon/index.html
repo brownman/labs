@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+
+	<title>Space Cannon 3D</title>
+	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+	<meta name="author" content="Brian Stoner">
+
+	<link href="/site_media/spacecannon/style/game.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="/site_media/spacecannon/script/three.js"></script>
+	<script type="text/javascript" src="/site_media/spacecannon/data/echonestData.js"></script>
+	<script type="text/javascript" src="/site_media/spacecannon/script/objects/timbrePlane.js"></script>
+	<script type="text/javascript" src="/site_media/spacecannon/script/home.js"></script>
+</head>
+<body onload="init();" class="noSelection">
+	<div id="chrome_frame"></div>
+	<audio id="audio"> 
+		<source src="/site_media/spacecannon/audio/Home.ogg" type="audio/ogg; codecs=vorbis"> 
+		<source src="/site_media/spacecannon/audio/Home.mp3"> 
+	</audio>
+	<div id="intro1" class="textOverlay transparent roundedCorners">
+		'Home' in Space
+	</div>
+	<div id="intro2" class="textOverlay transparent roundedCorners">
+		Move your mouse to aim and click to fire the cannon
+	</div>
+	<div id="intro3" class="textOverlay transparent roundedCorners">
+		Shoot as many of the flying space particles as you can
+	</div>
+	<div id="intro4" class="textOverlay transparent roundedCorners">
+		Level 1 - Go!
+	</div>
+	<div id="level2" class="textOverlay transparent roundedCorners">
+		Level 2 - Kicking it up a notch!
+	</div>
+	<div id="level3" class="textOverlay transparent roundedCorners">
+		Level 3 - Now we're cooking!
+	</div>
+	<div id="bonus" class="textOverlay transparent roundedCorners">
+		The home stretch, make it count!
+	</div>
+	
+	<div id="gameOver" class="textOverlay transparent roundedCorners">
+
+	</div>
+	
+	<div id="score" class="textOverlay transparent roundedCorners noSelection"></div>
+	<div id="timer" class="textOverlay transparent roundedCorners noSelection"></div>
+	<div id="itunesLink" class="noSelection">
+		<a href="http://click.linksynergy.com/fs-bin/stat?id=8oUygtvMHo4&offerid=146261&type=3&subid=0&tmpid=1826&RD_PARM1=http%253A%252F%252Fitunes.apple.com%252Fus%252Falbum%252Fspin-it%252Fid343800518%253Fi%253D343800530%2526uo%253D6%2526partnerId%253D30" target="itunes_store"><img src="/site_media/spacecannon/images/iTunesLink.png" /></a>
+		
+	</div>
+</body>
+</html>
