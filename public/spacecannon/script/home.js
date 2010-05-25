@@ -531,7 +531,7 @@ jsCollisionController = Class.extend({
 			var size = target.mesh.size+bullet.mesh.size;
 			
 			// If the closest the 2 get is half of their combined sizes then they may collide:
-			if (dist<size/2){
+			if (dist<(size/2)+15){
 				this.possibleCollisions.push({	bullet:bullet,
 												target:target,
 												combinedSize:size,
