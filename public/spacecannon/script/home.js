@@ -447,7 +447,7 @@ jsTarget = Class.extend({
 	    var m = this.mesh = new Particle( new ColorMaterial(Math.random() * 0x808008 + 0x808080, 1) );
 
 		// set the size of the particle based on the loudness of the current segment:
-		m.size = 60+(loudness);
+		m.size = 65+(loudness);
 		
 		// set the current position
 	    m.position.x = xPos + CAMERA_X;
@@ -463,7 +463,7 @@ jsTarget = Class.extend({
 
 	animate: function(){
 		var pos = this.mesh.position;
-        pos.z += 12;
+        pos.z += 10;
         this.mesh.updateMatrix();
 		if (pos.z >= 500){
             this.exploded = true;
