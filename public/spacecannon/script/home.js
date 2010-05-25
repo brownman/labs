@@ -225,16 +225,16 @@ var jsGame = Class.extend({
 			(timer>177.161 && this.curLevel==3)) {
 				this.curLevel++;
 				this.showNextMessage();
-		} else if (timer>200){
+		} else if (timer>250){
 			var html = [
 				"<p>Game Over!</p>",
 				"<p class='smaller'>You hit ",this.scoreNum," out of ",this.scoreDenom," space particles</p>",
 				"<p class='smaller'>Share your score on ",
 				"<a href='http://twitter.com/home?status=I just got ",this.scoreNum," out of ",this.scoreDenom,
-				" playing Home in Space: http://labs.brian-stoner.com/home-in-space/' title='Share on Twitter'>",
+				" playing Space Cannon 3D: http://labs.brian-stoner.com/spacecannon/' title='Share on Twitter'>",
 				"Twitter</a> and ",
 				 "<a href='http://facebook.com/share.php?u=I just got ",this.scoreNum," out of ",this.scoreDenom,
-				" playing Home in Space: http://labs.brian-stoner.com/home-in-space/' title='Share on Facebook'>",
+				" playing Space Cannon 3D: http://labs.brian-stoner.com/spacecannon/' title='Share on Facebook'>",
 				"Facebook</a></p>"
 			]
 			this.messages[0].innerHTML = html.join("");
