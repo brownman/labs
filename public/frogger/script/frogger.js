@@ -525,7 +525,31 @@ FrogReceiver = function(root,x,y,w,h){
     this.holdFrog = function(frog){
     	this.isEmpty=false;
 		this.frog = frog
-    	this.node.fill = '#dcdcdc';
+        
+        // remove the frog from the canvas;
+        this.frog.destroy();
+
+        var x = this.x;
+        var y = this.y;
+        var w = this.w;
+        var h = this.h;
+        
+        this.star =  new Path([
+          ['moveTo', [x+w/2, y]],
+          ['lineTo', [x+w/4, y]],
+          ['lineTo', [x+w/6, y-h/4]],
+          ['lineTo', [x+w/5, y-h/3]],
+          ['lineTo', [x+w/2, y-h/3]],
+          ['lineTo', [x+w/3, y-h/3]],
+          ['lineTo', [x+w/3, y-h/3]],
+          ['lineTo', [x+w,y]],
+          ['bezierCurveTo', [x+w,y-h, x,y-h, x,y]],
+        ], {
+            //stroke: '#fff',
+            fill: '#850'
+        });
+    	
+        this.node.fill = '#dcdcdc';
     }
 	
 	this.destroy = function(){
