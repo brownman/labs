@@ -1,11 +1,14 @@
 from django.conf.urls.defaults import *
 
-from frogger.views import leaderboard
+from frogger.views import main
 
 urlpatterns = patterns('',
-    (r'^api/', include('api.urls')),
-    (r'^leaderboard/', leaderboard),
+    (r'^api/', include('frogger.api.urls')),
 
-    (r'^$', "django.views.generic.simple.direct_to_template", {"template":"frogger/index.html"}),
+	# Intro Page:
+    (r'^$', main),
+
+	# Actual Game:
+    (r'^play/$', "django.views.generic.simple.direct_to_template", {"template":"frogger/game.html"}),
 
 )

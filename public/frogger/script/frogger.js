@@ -598,6 +598,10 @@ Scoreboard = function(root){
 	}
 
 	this.sendFinalScore = function(){
+		if (this.lives!=0 && this.root.user){
+			// only save the score if we're out of lives...otherwise game isn't over
+			return;
+		}
 		
 		ajaxData = {
 			score: this.score,
@@ -624,7 +628,7 @@ Scoreboard = function(root){
 FroggerGame = Klass(CanvasNode, {
 	frogReceiverHeight: 50,
 
-    initialize : function(canvasElem, fbUser) {
+    initialize : function(canvasElem) {
         CanvasNode.initialize.call(this)
         this.canvas = new Canvas(canvasElem)
         this.canvas.frameDuration = 35
@@ -634,8 +638,8 @@ FroggerGame = Klass(CanvasNode, {
 
 		// setup the background
 		this.setupBg();
-
-		this.user = fbUser;
+		
+		this.user = null; // Put fbUser here
 		
 		// Add the scoreboard
 		this.scoreboard = new Scoreboard(this)
@@ -697,15 +701,34 @@ FroggerGame = Klass(CanvasNode, {
 		}
 	},
 
+	getUser: function(){
+		var context = this;
+		FB.api('/me', function(response) {
+		 	$("#fbLogin").hide();
+		 	context.user = response;
+			context.scoreboard.sendFinalScore();
+		});
+	},
+	
     endGame : function(msg) {
-		this.scoreboard.sendFinalScore();
+		var context = this;
+		
+		if (!this.user){
+			FB.getLoginStatus(function(response) {
+			  if (response.session) {
+				$("#fbLogin").show();
+			  } else {
+			    context.getUser();
+			  }
+			});
+		}
 		
 		this.removeFrameListener(this.animate)
 		this.cleanUpCanvas();
 		this.canvas.removeAllChildren();
 		
 		// Show link to start new game:
-		document.getElementById("startOver").style.display = "block";
+		//document.getElementById("startOver").style.display = "block";
     },
 
 	nextLevel : function(){
@@ -787,7 +810,10 @@ FroggerGame = Klass(CanvasNode, {
 })
 
 
-init = function(fbUser) {
+
+
+
+init = function() {
     var c = E.canvas(WIDTH, HEIGHT)
     var d = E('div', { id: 'screen' })
     
@@ -795,12 +821,12 @@ init = function(fbUser) {
 	var screenDiv = document.getElementById("screen");
 	if (screenDiv) document.body.removeChild(screenDiv);
 	
-	document.getElementById("startOver").style.display = "none";
+	//document.getElementById("startOver").style.display = "none";
 
     d.appendChild(c)
     document.body.appendChild(d) 
     
-    FG = new FroggerGame(c,fbUser)
+    FG = new FroggerGame(c)
 
     if (document.addEventListener)
     {
