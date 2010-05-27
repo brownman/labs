@@ -1,6 +1,8 @@
 
 _WIDTH  			= 900;
 _HEIGHT 			= 500;
+_WIDTH  			= 900
+_HEIGHT 			= 500
 
 TEXT_COLOR 			= '#828292';
 BG_COLOR   			= '#202023';
@@ -533,7 +535,7 @@ FrogReceiver = function(root,x,y,w,h){
 
     this.holdFrog = function(frog){
     	this.isEmpty=false;
-		this.frog = frog;
+		this.frog = frog
         
         // remove the frog from the canvas;
         this.frog.destroy();
@@ -542,27 +544,23 @@ FrogReceiver = function(root,x,y,w,h){
         var y = this.y;
         var w = this.w;
         var h = this.h;
-		var wPart = w/10;
-		var hPart = h/6;
         
         this.star =  new Path([
-          ['moveTo', [x+wPart*5, y]],
-          ['lineTo', [x+wPart, y]],
-          ['lineTo', [x+wPart*3, y-hPart]],
-          ['lineTo', [x+wPart*2, y-hPart*4]],
-          ['lineTo', [x+wPart*4, y-hPart*3]],
-          ['lineTo', [x+wPart*5, y-hPart*5]],
-          ['lineTo', [x+wPart*6, y-hPart*3]],
-          ['lineTo', [x+wPart*8, y-hPart*4]],
-          ['lineTo', [x+wPart*7, y-hPart]],
-          ['lineTo', [x+wPart*9, y]],
-          ['lineTo', [x+wPart*5, y]],
+          ['moveTo', [x+w/2, y]],
+          ['lineTo', [x+w/4, y]],
+          ['lineTo', [x+w/6, y-h/4]],
+          ['lineTo', [x+w/5, y-h/3]],
+          ['lineTo', [x+w/2, y-h/3]],
+          ['lineTo', [x+w/3, y-h/3]],
+          ['lineTo', [x+w/3, y-h/3]],
+          ['lineTo', [x+w,y]],
+          ['bezierCurveTo', [x+w,y-h, x,y-h, x,y]],
         ], {
-            fill: '#99cc33'
+            //stroke: '#fff',
+            fill: '#850'
         });
-
-    	this.root.append(this.star);
-        this.node.fill = '#006600';
+    	
+        this.node.fill = '#dcdcdc';
     }
 	
 	this.destroy = function(){
