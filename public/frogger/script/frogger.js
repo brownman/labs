@@ -1,30 +1,39 @@
 
-_WIDTH  			= 900
-_HEIGHT 			= 500
+_WIDTH  			= 900;
+_HEIGHT 			= 500;
 
-TEXT_COLOR 			= '#828292'
-BG_COLOR   			= '#202023'
+TEXT_COLOR 			= '#828292';
+BG_COLOR   			= '#202023';
 
-FROG_SPEED 			= 0.2
-FROG_FILL           = '#850'
-FROG_FILL_OPACITY   = 1
+FROG_SPEED 			= 0.2;
+FROG_FILL           = '#850';
+FROG_FILL_OPACITY   = 1;
 
-CAR_DEFAULT_SPEED 	= 0.1
-CAR_SIZE 			= 15
-CAR_FILL 			= '#a9a9a9'
-CAR_EXPLODE			= 'rgba(240,195,96,0.5)'
-CAR_FILL_OPACITY 	= 1
-CAR_STROKE 			= '#464646'
-CAR_STROKE_OPACITY 	= 0.25
-CAR_STROKE_WIDTH 	= 2
+CAR_DEFAULT_SPEED 	= 0.1;
+CAR_SIZE 			= 15;
+CAR_FILL 			= '#a9a9a9';
+CAR_EXPLODE			= 'rgba(240,195,96,0.5)';
+CAR_FILL_OPACITY 	= 1;
+CAR_STROKE 			= '#464646';
+CAR_STROKE_OPACITY 	= 0.25;
+CAR_STROKE_WIDTH 	= 2;
 
-POINTS_FOR_SAFE_FROG= 100
+PLAIN_CAR_WIDTH		= 80;
+PLAIN_CAR_HEIGHT	= 40;
+TRUCK_WIDTH 		= 110;
+TRUCK_HEIGHT		= 40;
+RACECAR_WIDTH		= 80;
+RACECAR_HEIGHT		= 40;
+
+FROG_RECEIVER_HEIGHT= 50;
+
+POINTS_FOR_SAFE_FROG= 100;
 
 GAME_BG_COLOR 		= new Gradient({ endX:_WIDTH, endY:0, colorStops:[[0, "#191919"], [1, "#111115"]] });
-GAME_ERASE_COLOR 	= '#FFF'
+GAME_ERASE_COLOR 	= '#FFF';
 
-WIDTH  				= _WIDTH
-HEIGHT 				= _HEIGHT
+WIDTH  				= _WIDTH;
+HEIGHT 				= _HEIGHT;
 
 
 NodesCollided = function(obj1, obj2){
@@ -195,8 +204,8 @@ CarFactory = {
 	},
 	
 	_makeTruck: function(x, y, direction,color){
-		var base_w = 110;
-		var base_h = 40;
+		var base_w = TRUCK_WIDTH;
+		var base_h = TRUCK_HEIGHT;
 		
 		var car = this._makeCarWrapper(x,y,base_w,base_h)
 		
@@ -234,14 +243,14 @@ CarFactory = {
 	},
 	
 	_makeRaceCar: function(x, y, direction,color){
-		var base_w = 80;
-		var base_h = 30;
+		var base_w = RACECAR_WIDTH;
+		var base_h = RACECAR_HEIGHT;
 		
 		var car = this._makeCarWrapper(x,y,base_w,base_h)
 		
 		// Reinitialize w / h / x, based on direction
 		var w = (direction=="LEFT") ? base_w : -base_w;
-		var h = 40;
+		var h = base_h;
 		x = (direction=="LEFT") ? 0 : base_w;
 				
 		//Car body
@@ -333,8 +342,8 @@ CarFactory = {
 	},
 	
 	_makePlainCar: function(x, y, direction,color){
-		var base_w = 70;
-		var base_h = 40;
+		var base_w = PLAIN_CAR_WIDTH;
+		var base_h = PLAIN_CAR_HEIGHT;
 		
 		var car = this._makeCarWrapper(x,y,base_w,base_h)
 		
@@ -433,7 +442,7 @@ CarDispatcher = function(root, x, y, speed, direction,type) {
 	this.carColor = [Math.floor(Math.random()*255),Math.floor(Math.random()*255),Math.floor(Math.random()*255),1.0];
 
     this.initialize = function(root, x, y, speed, direction,type) {
-		this.speed = Math.floor(Math.random()*10)+2;	
+		this.speed = Math.floor(Math.random()*10);	
 		this.space_between_cars = Math.random()*50+150
 		this.y = y
 		this.x = x
@@ -510,7 +519,7 @@ FrogReceiver = function(root,x,y,w,h){
 	      ['bezierCurveTo', [x+w,y-h, x,y-h, x,y]],
 	    ], {
 	    	//stroke: '#fff',
-      		fill: '#850'
+      		fill: '#996600'
 	    });
 	    
 	    
@@ -524,13 +533,44 @@ FrogReceiver = function(root,x,y,w,h){
 
     this.holdFrog = function(frog){
     	this.isEmpty=false;
-		this.frog = frog
-    	this.node.fill = '#dcdcdc';
+		this.frog = frog;
+        
+        // remove the frog from the canvas;
+        this.frog.destroy();
+
+        var x = this.x;
+        var y = this.y;
+        var w = this.w;
+        var h = this.h;
+		var wPart = w/10;
+		var hPart = h/6;
+        
+        this.star =  new Path([
+          ['moveTo', [x+wPart*5, y]],
+          ['lineTo', [x+wPart, y]],
+          ['lineTo', [x+wPart*3, y-hPart]],
+          ['lineTo', [x+wPart*2, y-hPart*4]],
+          ['lineTo', [x+wPart*4, y-hPart*3]],
+          ['lineTo', [x+wPart*5, y-hPart*5]],
+          ['lineTo', [x+wPart*6, y-hPart*3]],
+          ['lineTo', [x+wPart*8, y-hPart*4]],
+          ['lineTo', [x+wPart*7, y-hPart]],
+          ['lineTo', [x+wPart*9, y]],
+          ['lineTo', [x+wPart*5, y]],
+        ], {
+            fill: '#99cc33'
+        });
+
+    	this.root.append(this.star);
+        this.node.fill = '#006600';
     }
 	
 	this.destroy = function(){
 		if(this.frog){
 			this.frog.destroy();
+		}
+		if(this.star){
+			this.star.removeSelf();
 		}
 		this.node.removeSelf();
 	}
@@ -678,15 +718,15 @@ FroggerGame = Klass(CanvasNode, {
 		}
 		
 		
-		var offset = 0+this.frogReceiverHeight;
+		var offset = 10+this.frogReceiverHeight;
 		// Instantiate the Car Dispatchers on top (not actually drawn on canvas, just placeholders where the cars come from)
 		this.carDispatchers.push(new CarDispatcher(this, WIDTH, offset,CAR_DEFAULT_SPEED, "LEFT","RACECAR"));
 		this.carDispatchers.push(new CarDispatcher(this, WIDTH, offset+60,CAR_DEFAULT_SPEED, "LEFT","TRUCK"));
 		this.carDispatchers.push(new CarDispatcher(this, WIDTH, offset+120,CAR_DEFAULT_SPEED, "LEFT","PLAINCAR"));
 		
 		// Instantiate the Car Dispatchers (not actually drawn on canvas, just placeholders where the cars come from)
-		this.carDispatchers.push(new CarDispatcher(this, -100, offset+220,CAR_DEFAULT_SPEED, "RIGHT","TRUCK"));
-		this.carDispatchers.push(new CarDispatcher(this, -100, offset+280,CAR_DEFAULT_SPEED, "RIGHT","RACECAR"));
+		this.carDispatchers.push(new CarDispatcher(this, -100, offset+240,CAR_DEFAULT_SPEED, "RIGHT","TRUCK"));
+		this.carDispatchers.push(new CarDispatcher(this, -100, offset+300,CAR_DEFAULT_SPEED, "RIGHT","RACECAR"));
 		
 		// Start the animation
         this.addFrameListener(this.animate)
@@ -762,6 +802,7 @@ FroggerGame = Klass(CanvasNode, {
 	},
 
 	addNewFrog : function(){
+		// Add popup so new frog doesn't go flying up into cars
 		this.frog = new Frog(this,HEIGHT-10,WIDTH/2);
 		this.scoreboard.updateStats();
 	},
