@@ -1,8 +1,5 @@
-
 _WIDTH  			= 900;
 _HEIGHT 			= 500;
-_WIDTH  			= 900
-_HEIGHT 			= 500
 
 TEXT_COLOR 			= '#828292';
 BG_COLOR   			= '#202023';
