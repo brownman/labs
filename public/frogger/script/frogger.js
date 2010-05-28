@@ -6,7 +6,9 @@ BG_COLOR   			= '#202023';
 
 FROG_SPEED 			= 0.2;
 FROG_FILL           = '#850';
-FROG_FILL_OPACITY   = 1;
+//FROG_FILL_OPACITY   = 1;
+FROG_WIDTH			= 30;
+FROG_HEIGHT			= 30;
 
 CAR_DEFAULT_SPEED 	= 0.1;
 CAR_SIZE 			= 15;
@@ -85,23 +87,56 @@ Frog = function(root, x, y) {
 
     this.initialize = function(root, x, y) {
     	
-    	this.pwidth = 30;
-        this.pheight = 28;
+    	//this.pwidth = 30;
+        //this.pheight = 28;
         
         //this.node = new Rectangle(this.pwidth, this.pheight)
-        var img = new Image();
-    	img.src = '/site_media/frogger/images/frog2.png'
-    	this.node = new ImageNode(img)
+        //var img = new Image();
+    	//img.src = '/site_media/frogger/images/frog2.png'
+    	//this.node = new ImageNode(img)
     	
-        this.node.x = x - this.pwidth/2
-        this.node.y = y - this.pheight/2
-        this.node.height = this.pheight
-        this.node.width = this.pwidth
+        //this.node.x = x - this.pwidth/2
+        //this.node.y = y - this.pheight/2
+        //this.node.height = this.pheight
+        //this.node.width = this.pwidth
         
-        this.node.w = 30
-        this.node.h = 28
-        //this.node.fill = FROG_FILL
-        //this.node.fillOpacity = FROG_FILL_OPACITY
+        //this.node.w = 30
+        //this.node.h = 28
+		
+		var xPart = FROG_WIDTH/10;
+		var yPart = FROG_HEIGHT/10;
+		
+		this.node = new Path([
+		    ['moveTo', [x+4*xPart,y-yPart*9]],
+			['quadraticCurveTo', [x+5*xPart,y-FROG_HEIGHT, 	x+6*xPart,y-yPart*9]],
+			['quadraticCurveTo', [x+7*xPart,y-yPart*5.5,	x+6*xPart,y-yPart*2]],
+			['quadraticCurveTo', [x+5*xPart,y-yPart,		x+4*xPart,y-yPart*2]],
+			['quadraticCurveTo', [x+3*xPart,y-yPart*5.5,	x+4*xPart,y-yPart*9]],
+			
+			['moveTo', [x+3*xPart,y-yPart*4]],
+			['lineTo', [x+xPart,y-yPart*6]],
+			['lineTo', [x+2*xPart,y-yPart*7]],
+			['lineTo', [x+2*xPart,y-yPart*6]],
+			['lineTo', [x+4*xPart,y-yPart*4]],
+			
+			['moveTo', [x+7*xPart,y-yPart*4]],
+			['lineTo', [x+9*xPart,y-yPart*6]],
+			['lineTo', [x+8*xPart,y-yPart*7]],
+			['lineTo', [x+8*xPart,y-yPart*6]],
+			['lineTo', [x+4*xPart,y-yPart*4]],
+			
+			['moveTo', [x+6*xPart,y-yPart*2]],
+			['lineTo', [x+7*xPart,y-yPart]],
+			['lineTo', [x+6*xPart,y]],
+			['lineTo', [x+7*xPart,y]],			
+			['lineTo', [x+9*xPart,y-yPart*2]],
+			['lineTo', [x+8*xPart,y-yPart*3]],
+			['lineTo', [x+7*xPart,y-yPart*3]]
+			
+		],{
+			fill: FROG_FILL
+		});
+
         this.node.zIndex = 1
 
         this.eraser = new Rectangle(this.pwidth, this.pheight)
