@@ -80,38 +80,38 @@ NodesCollided = function(obj1, obj2){
 
 Frog = function(root, x, y) {
 
-	this.isAlive = true
-    this.speed = FROG_SPEED
-    this.initial_points = 0
-    this.points = 0
+	this.isAlive = true;
+    this.speed = FROG_SPEED;
+    this.initial_points = 0;
+    this.points = 0;
 
     this.initialize = function(root, x, y) {
-    	
-    	//this.pwidth = 30;
-        //this.pheight = 28;
+
+        this.node = new Rectangle(FROG_WIDTH, FROG_HEIGHT);
+        this.node.w = FROG_WIDTH;
+        this.node.h = FROG_HEIGHT;
+        this.node.x = x - FROG_WIDTH/2;
+        this.node.y = y - FROG_HEIGHT/2;        
+        this.node.zIndex = 1;
         
-        //this.node = new Rectangle(this.pwidth, this.pheight)
-        //var img = new Image();
-    	//img.src = '/site_media/frogger/images/frog2.png'
-    	//this.node = new ImageNode(img)
-    	
-        //this.node.x = x - this.pwidth/2
-        //this.node.y = y - this.pheight/2
-        //this.node.height = this.pheight
-        //this.node.width = this.pwidth
-        
-        //this.node.w = 30
-        //this.node.h = 28
-		
-		var xPart = FROG_WIDTH/10;
-		var yPart = FROG_HEIGHT/10;
-		
-		this.node = new Path([
-		    ['moveTo', [x+4*xPart,y-yPart*9]],
+        this.eraser = new Rectangle(FROG_WIDTH, FROG_HEIGHT);
+        this.eraser.x = x - this.node.w/2;
+        this.eraser.y = y - this.node.h/2;
+        this.eraser.fill = GAME_BG_COLOR;
+        this.eraser.zIndex = 0;
+        		
+        // Reset the x/y since frog position is relative to the node wrapper:
+        x = 0;
+        y = FROG_HEIGHT;
+        var xPart = FROG_WIDTH/10;
+        var yPart = FROG_HEIGHT/10;
+                
+		var frog = new Path([
+		    ['moveTo',           [x+4*xPart,y-yPart*9]],
 			['quadraticCurveTo', [x+5*xPart,y-FROG_HEIGHT, 	x+6*xPart,y-yPart*9]],
-			['quadraticCurveTo', [x+7*xPart,y-yPart*5.5,	x+6*xPart,y-yPart*2]],
+			['quadraticCurveTo', [x+8*xPart,y-yPart*5.5,	x+6*xPart,y-yPart*2]],
 			['quadraticCurveTo', [x+5*xPart,y-yPart,		x+4*xPart,y-yPart*2]],
-			['quadraticCurveTo', [x+3*xPart,y-yPart*5.5,	x+4*xPart,y-yPart*9]],
+			['quadraticCurveTo', [x+2*xPart,y-yPart*5.5,	x+4*xPart,y-yPart*9]],
 			
 			['moveTo', [x+3*xPart,y-yPart*4]],
 			['lineTo', [x+xPart,y-yPart*6]],
@@ -123,7 +123,7 @@ Frog = function(root, x, y) {
 			['lineTo', [x+9*xPart,y-yPart*6]],
 			['lineTo', [x+8*xPart,y-yPart*7]],
 			['lineTo', [x+8*xPart,y-yPart*6]],
-			['lineTo', [x+4*xPart,y-yPart*4]],
+			['lineTo', [x+6*xPart,y-yPart*4]],
 			
 			['moveTo', [x+6*xPart,y-yPart*2]],
 			['lineTo', [x+7*xPart,y-yPart]],
@@ -131,67 +131,71 @@ Frog = function(root, x, y) {
 			['lineTo', [x+7*xPart,y]],			
 			['lineTo', [x+9*xPart,y-yPart*2]],
 			['lineTo', [x+8*xPart,y-yPart*3]],
-			['lineTo', [x+7*xPart,y-yPart*3]]
-			
+			['lineTo', [x+7*xPart,y-yPart*3]],
+            
+            ['moveTo', [x+4*xPart,y-yPart*2]],
+            ['lineTo', [x+3*xPart,y-yPart]],
+            ['lineTo', [x+4*xPart,y]],
+            ['lineTo', [x+3*xPart,y]],
+            ['lineTo', [x+xPart,y-yPart*2]],
+            ['lineTo', [x+2*xPart,y-yPart*3]],
+            ['lineTo', [x+3*xPart,y-yPart*3]]
+
 		],{
 			fill: FROG_FILL
 		});
 
-        this.node.zIndex = 1
-
-        this.eraser = new Rectangle(this.pwidth, this.pheight)
-        this.eraser.x = x - this.pwidth/2
-        this.eraser.y = y - this.pheight/2
-        this.eraser.fill = GAME_BG_COLOR
-        this.eraser.fillOpacity = 1
-        this.eraser.zIndex = 0
+        frog.w = FROG_WIDTH;
+        frog.h = FROG_HEIGHT;
+        frog.zIndex = 3;
+        this.node.append(frog);
         
-        this.root.append(this.node)
-        this.root.append(this.eraser)
+        this.root.append(this.node);
+        this.root.append(this.eraser);
     }
 
 	this.up = function() {
 		if (this.node.y<=0){
-			this.root.endGame("Congrats, you made it.");
+			this.root.endGame();
 		} else {
-			this.node.y = this.node.y - (this.pheight*this.speed);
+			this.node.y -= this.node.h*this.speed;
 		}
 	}
 	
 	this.down = function() {
 		if (this.node.y!=HEIGHT){
-			this.node.y = this.node.y + (this.pheight*this.speed);
+			this.node.y += this.node.h*this.speed;
 		}
 	}
 	
 	this.moveLeft = function() {
 		if (this.node.x!=0){
-			this.node.x = this.node.x - (this.pwidth*this.speed);
+			this.node.x -= this.node.w*this.speed;
 		}
 	}
 	
 	this.moveRight = function() {	
 		if (this.node.x!=WIDTH){
-			this.node.x = this.node.x + (this.pwidth*this.speed);
+			this.node.x += this.node.w*this.speed;
 		}
 	}
 
 	this.runOver = function() {
-		this.node.scale = 0.7
-        this.node.stroke = false
-        this.node.animateTo('fillOpacity', 0, 500, 'sine')
-        this.node.removeSelf()
-        this.eraser.removeSelf()
+		this.node.scale = 0.7;
+        this.node.stroke = false;
+        this.node.animateTo('fillOpacity', 0, 500, 'sine');
+        this.node.removeSelf();
+        this.eraser.removeSelf();
 	}
 	
 	this.destroy = function(){
-	    this.node.removeSelf()
-	    this.eraser.removeSelf()
+	    this.node.removeSelf();
+	    this.eraser.removeSelf();
 	}
 
 	this.animate = function(t, dt){
-		this.eraser.x = this.node.x
-        this.eraser.y = this.node.y
+		this.eraser.x = this.node.x;
+        this.eraser.y = this.node.y;
         
         if (this.root.keys["Up"]==1){
         	this.up();
@@ -207,8 +211,8 @@ Frog = function(root, x, y) {
         }
 	}
 
-    this.root = root
-    this.initialize(root, x, y)
+    this.root = root;
+    this.initialize(root, x, y);
 }
 
 
@@ -229,11 +233,11 @@ CarFactory = {
 	},
 	
 	_makeCarWrapper: function(x,y,w,h){
-		var wrapper = new Rectangle(w, h)
-        wrapper.x = x
-        wrapper.y = y
-        wrapper.w = w
-        wrapper.h = h
+		var wrapper = new Rectangle(w, h);
+        wrapper.x = x;
+        wrapper.y = y;
+        wrapper.w = w;
+        wrapper.h = h;
         return wrapper;
 	},
 	
@@ -241,7 +245,7 @@ CarFactory = {
 		var base_w = TRUCK_WIDTH;
 		var base_h = TRUCK_HEIGHT;
 		
-		var car = this._makeCarWrapper(x,y,base_w,base_h)
+		var car = this._makeCarWrapper(x,y,base_w,base_h);
 		
 		// update w and x based on direction
 		var w = (direction=="LEFT") ? base_w : -base_w;
@@ -423,32 +427,32 @@ CarFactory = {
 Car = function(root, x, y, speed, direction, color, type) {
 
     this.initialize = function(root, x, y, speed, direction, color, type) {
-		this.speed = speed
-		this.direction = direction
+		this.speed = speed;
+		this.direction = direction;
 
-        this.node = CarFactory.makeCar(type,x, y, direction,color)
-	    this.root.append(this.node)
+        this.node = CarFactory.makeCar(type,x, y, direction,color);
+	    this.root.append(this.node);
 	    
-        this.eraser = new Rectangle(this.node.w,this.node.h)
-        this.eraser.x = x
-        this.eraser.y = y
-        this.eraser.fill = GAME_ERASE_COLOR
-        this.eraser.fillOpacity = 0
-        this.eraser.zIndex = 0
+        this.eraser = new Rectangle(this.node.w,this.node.h);
+        this.eraser.x = x;
+        this.eraser.y = y;
+        this.eraser.fill = GAME_ERASE_COLOR;
+        this.eraser.fillOpacity = 0;
+        this.eraser.zIndex = 0;
         
-        this.root.append(this.eraser)
+        this.root.append(this.eraser);
     }
 
     this.destroy = function() {
-        this.root.unregister(this)
-    	this.node.removeSelf()
-    	this.eraser.removeSelf()
+        this.root.unregister(this);
+    	this.node.removeSelf();
+    	this.eraser.removeSelf();
 
     }
 
 
     this.animate = function(t, dt) {
-        this.eraser.x = this.node.x
+        this.eraser.x = this.node.x;
     	
         if (this.direction=="LEFT"){
     		this.node.x -= this.speed;
@@ -464,9 +468,9 @@ Car = function(root, x, y, speed, direction, color, type) {
         
     }
 
-    this.root = root
-    this.speed = speed
-    this.initialize(root, x, y, speed, direction, color, type)
+    this.root = root;
+    this.speed = speed;
+    this.initialize(root, x, y, speed, direction, color, type);
 }
 
 
@@ -477,16 +481,16 @@ CarDispatcher = function(root, x, y, speed, direction,type) {
 
     this.initialize = function(root, x, y, speed, direction,type) {
 		this.speed = Math.floor(Math.random()*10);	
-		this.space_between_cars = Math.random()*50+150
-		this.y = y
-		this.x = x
+		this.space_between_cars = Math.random()*50+150;
+		this.y = y;
+		this.x = x;
 		this.direction = direction; // LEFT or RIGHT
-		this.max_cars = 3
+		this.max_cars = 3;
 		this.cars = new Array();
     }
 
     this.new_car = function() {
-	    var car = new Car(this, this.x, this.y, this.speed, this.direction, this.carColor,type)
+	    var car = new Car(this, this.x, this.y, this.speed, this.direction, this.carColor,type);
 	    this.cars.push(car);
 	    this.num_cars = this.cars.length;
     }
@@ -513,7 +517,7 @@ CarDispatcher = function(root, x, y, speed, direction,type) {
 
     	// If there's no cars, add one
     	if (this.cars.length==0){
-    		this.new_car()
+    		this.new_car();
     	}
     	
 		// if the cur number of cars isn't the max, see if we're ready to add one:
@@ -525,18 +529,18 @@ CarDispatcher = function(root, x, y, speed, direction,type) {
     		// If cars are moving to the left, and the top right corner of the car is more than the required space between cars away from the right side of canvas,
     		// then add another car
 			if (this.direction=="LEFT" && last_car.node.x+last_car.node.w < (WIDTH-this.space_between_cars)){
-    			this.new_car()
+    			this.new_car();
     			
     		// opposite of above condition, for cars moving to the right.  If there is enough spacing add another car
     		} else if (this.direction=="RIGHT" && last_car.node.x > this.space_between_cars){
-    			this.new_car()
+    			this.new_car();
     		}
         }
         
     }
 
-    this.root = root
-    this.initialize(root, x, y, speed, direction,type)
+    this.root = root;
+    this.initialize(root, x, y, speed, direction,type);
 }
 
 FrogReceiver = function(root,x,y,w,h){
@@ -556,7 +560,6 @@ FrogReceiver = function(root,x,y,w,h){
       		fill: '#996600'
 	    });
 	    
-	    
 	    this.x = x;
 	    this.y = y;
 	    this.w = w;
@@ -567,32 +570,34 @@ FrogReceiver = function(root,x,y,w,h){
 
     this.holdFrog = function(frog){
     	this.isEmpty=false;
-		this.frog = frog
+		this.frog = frog;
         
         // remove the frog from the canvas;
         this.frog.destroy();
 
         var x = this.x;
         var y = this.y;
-        var w = this.w;
-        var h = this.h;
+        var xPart = this.w/10;
+        var yPart = this.h/6;
         
         this.star =  new Path([
-          ['moveTo', [x+w/2, y]],
-          ['lineTo', [x+w/4, y]],
-          ['lineTo', [x+w/6, y-h/4]],
-          ['lineTo', [x+w/5, y-h/3]],
-          ['lineTo', [x+w/2, y-h/3]],
-          ['lineTo', [x+w/3, y-h/3]],
-          ['lineTo', [x+w/3, y-h/3]],
-          ['lineTo', [x+w,y]],
-          ['bezierCurveTo', [x+w,y-h, x,y-h, x,y]],
+            ['moveTo', [x+5*xPart, y]],
+            ['lineTo', [x+xPart, y]],
+            ['lineTo', [x+3*xPart, y-yPart]],
+            ['lineTo', [x+2*xPart, y-4*yPart]],
+            ['lineTo', [x+4*xPart, y-3*yPart]],
+            ['lineTo', [x+5*xPart, y-5*yPart]],
+            ['lineTo', [x+6*xPart, y-3*yPart]],
+            ['lineTo', [x+8*xPart, y-4*yPart]],
+            ['lineTo', [x+7*xPart, y-yPart]],
+            ['lineTo', [x+9*xPart, y]],
+            ['lineTo', [x+5*xPart, y]]
         ], {
-            //stroke: '#fff',
             fill: '#850'
         });
     	
-        this.node.fill = '#dcdcdc';
+        this.star.fill = '#dcdcdc';
+        this.root.append(this.star);
     }
 	
 	this.destroy = function(){
@@ -690,7 +695,7 @@ Scoreboard = function(root){
 		})	
 	}
 
-	this.root = root
+	this.root = root;
 	this.initialize(root);
 }
 
@@ -699,12 +704,12 @@ FroggerGame = Klass(CanvasNode, {
 	frogReceiverHeight: 50,
 
     initialize : function(canvasElem) {
-        CanvasNode.initialize.call(this)
-        this.canvas = new Canvas(canvasElem)
-        this.canvas.frameDuration = 35
-        this.canvas.append(this)
-        this.canvas.fixedTimestep = true
-        this.canvas.clear = false
+        CanvasNode.initialize.call(this);
+        this.canvas = new Canvas(canvasElem);
+        this.canvas.frameDuration = 35;
+        this.canvas.append(this);
+        this.canvas.fixedTimestep = true;
+        this.canvas.clear = false;
 
 		// setup the background
 		this.setupBg();
@@ -712,23 +717,23 @@ FroggerGame = Klass(CanvasNode, {
 		this.user = null; // Put fbUser here
 		
 		// Add the scoreboard
-		this.scoreboard = new Scoreboard(this)
+		this.scoreboard = new Scoreboard(this);
 		
 		// number of frogs + targets at the top for frogs to reach
 		this.numFrogs = 5;
 		
 		// setup the mapping for catching key presses
-        this.keys = { "Up" : 0, "Down" : 0, "Left" : 0, "Right" : 0, "Ctrl" : 0 }
+        this.keys = { "Up" : 0, "Down" : 0, "Left" : 0, "Right" : 0, "Ctrl" : 0 };
 
 		// Initialize a new game
         this.startGame();
     },
     
     setupBg : function() {
-        this.bg = new Rectangle(WIDTH, HEIGHT)
+        this.bg = new Rectangle(WIDTH, HEIGHT);
         this.bg.fill = GAME_BG_COLOR;
-        this.bg.zIndex = -1000
-        this.append(this.bg)
+        this.bg.zIndex = -1000;
+        this.append(this.bg);
     },
     
 	startGame: function() {
@@ -759,7 +764,7 @@ FroggerGame = Klass(CanvasNode, {
 		this.carDispatchers.push(new CarDispatcher(this, -100, offset+300,CAR_DEFAULT_SPEED, "RIGHT","RACECAR"));
 		
 		// Start the animation
-        this.addFrameListener(this.animate)
+        this.addFrameListener(this.animate);
 	},
 
 	cleanUpCanvas : function() {
@@ -780,7 +785,7 @@ FroggerGame = Klass(CanvasNode, {
 		});
 	},
 	
-    endGame : function(msg) {
+    endGame : function() {
 		var context = this;
 		
 		if (!this.user){
@@ -793,7 +798,7 @@ FroggerGame = Klass(CanvasNode, {
 			});
 		}
 		
-		this.removeFrameListener(this.animate)
+		this.removeFrameListener(this.animate);
 		this.cleanUpCanvas();
 		this.canvas.removeAllChildren();
 		
@@ -806,7 +811,7 @@ FroggerGame = Klass(CanvasNode, {
 		this.scoreboard.scoreFinishedLevel();
 
 		// stop the animation madness
-		this.removeFrameListener(this.animate)
+		this.removeFrameListener(this.animate);
 		
 		// clear the canvas
 		this.cleanUpCanvas();
@@ -879,10 +884,6 @@ FroggerGame = Klass(CanvasNode, {
 	}
 
 })
-
-
-
-
 
 init = function() {
     var c = E.canvas(WIDTH, HEIGHT)
