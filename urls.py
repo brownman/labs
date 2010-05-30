@@ -21,5 +21,5 @@ urlpatterns = patterns('',
 if (settings.PROD==False):
 	urlpatterns += patterns('',
 	(r'^site_media/(?P<path>.*)$', 'django.views.static.serve',
-        {'document_root': '/home/bstoner/Django-1.2-beta-1/django/bin/labs/public', 'show_indexes': True}),
+        {'document_root': '/django_trunk/django/bin/labs/public', 'show_indexes': True}),
 )
