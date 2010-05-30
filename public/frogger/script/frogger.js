@@ -744,7 +744,7 @@ FroggerGame = Klass(CanvasNode, {
         this.append(this.bg);
 
 		var middleGrass = new Rectangle(WIDTH,50);
-		middleGrass.fill = new Gradient({ endX:0, endY:50, colorStops:[[1, "#336600"], [0.5, "#006600"], [0,"#336600"]] });
+		middleGrass.fill = new Gradient({ endX:0, endY:50, colorStops:[[1, "#003300"], [0.5, "#115500"], [0,"#003300"]] });
 		middleGrass.y = FROG_RECEIVER_TOTAL_HEIGHT + 180;
 		this.append(middleGrass);
 
@@ -825,7 +825,12 @@ FroggerGame = Klass(CanvasNode, {
 		this.showMessage("GAME OVER!",5000);
 		
 		if (!this.user){
-			document.getElementById("fbLogin").style.display = "block";
+			var loginDiv = document.getElementById("fbLogin");
+			loginDiv.style.top = (WINDOW_HEIGHT/2-90) + "px";
+		 	loginDiv.style.left = WINDOW_WIDTH/2-150 + "px";
+			loginDiv.style.display = "block";
+		} else {
+			this.getUser();
 		}
 		
 		this.removeFrameListener(this.animate);
