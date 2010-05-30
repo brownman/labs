@@ -96,7 +96,7 @@ a:hover {color:#990000;}
 #screen {margin:0px auto;position:relative;width:900px;}
 
 #fbLogin
-	{font-size:150%;display:none;position:absolute;width:400px;text-align:center;}
+	{font-size:150%;display:none;position:relative;width:400px;text-align:center;z-index:10000;margin:0 auto;height:100px;}
 
 #message {display:none;position:absolute;width:300px;text-align:center;font-size:200%;}
 
