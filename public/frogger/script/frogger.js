@@ -825,13 +825,7 @@ FroggerGame = Klass(CanvasNode, {
 		this.showMessage("GAME OVER!",5000);
 		
 		if (!this.user){
-			FB.getLoginStatus(function(response) {
-			  if (response.session) {
-				document.getElementById("fbLogin").style.display = "block";
-			  } else {
-			    context.getUser();
-			  }
-			});
+			document.getElementById("fbLogin").style.display = "block";
 		}
 		
 		this.removeFrameListener(this.animate);
