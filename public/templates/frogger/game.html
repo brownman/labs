@@ -6,8 +6,8 @@
 	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">  
 	<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz' rel='stylesheet' type='text/css'>
 	<link href='/site_media/frogger/style/frogger.css' rel='stylesheet' type='text/css'>
+	
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-
 	<script type="text/javascript" src="/site_media/frogger/script/cake.js"></script>
 	<script type="text/javascript" src="/site_media/frogger/script/frogger.js"></script>
 	<script type="text/javascript"> 
@@ -40,14 +40,17 @@
 </head>
 
 <body>
-	<div id="level"></div>
-	<div id="timer"></div>
-	<div id="lives"></div>
-	<div id="score"></div>
+	<div id="leaderboard">
+		<div id="title">HTML5 Frogger</div>
+		<div id="level"></div>
+		<div id="lives"></div>
+		<div id="score"></div>
+	</div>
 	
 	<div id="fbLogin">
 		<fb:login-button></fb:login-button>
 	</div>
 	<div id="fb-root"></div>
+	<div id="message" class="textOverlay"></div>
 </body>
 </html>

@@ -19,6 +19,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 }
 body {
 	font-family:'Yanone Kaffeesatz',Georgia,Times,serif;
+	background: #dcdcdc url('/site_media/frogger/images/backgroundHeader.png') top center no-repeat;
 }
 ol, ul {
 	list-style: none;
@@ -85,33 +86,35 @@ a:hover {color:#990000;}
 				
 				
 /*** GAME */
-#score, #lives, #timer, #level {position:fixed; font-size:40px;}
+#leaderboard {position:relative;width:900px;margin:0 auto;padding:5px 0px;height:40px;color:#006600;}
+#score, #lives, #level, #title {position:absolute;}
+#score {right:100px;font-size:200%;}
+#lives {right:0px;padding-left:35px;background: url('/site_media/frogger/images/frog_icon.png') left top no-repeat;font-size:200%;}
+#level {right:100px;font-size:200%;left:420px;}
+#title {left:0px;top:0px;font-size:250%;}
 
-#score {bottom:5px;right:5px;}
-#lives {bottom:55px;right:5px;}
-#timer {bottom:105px;right:5px;}
-#level {bottom:155px;right:5px;}
-
-#screen {margin:35px auto;position:relative;width:900px;}
+#screen {margin:0px auto;position:relative;width:900px;}
 
 #fbLogin
-	{font-size:22px;display:none;position:absolute;width:400px;text-align:center;}
+	{font-size:150%;display:none;position:absolute;width:400px;text-align:center;}
+
+#message {display:none;position:absolute;width:300px;text-align:center;font-size:200%;}
 
 /** Common Styles */
 
 .textOverlay {
-	padding:10px 15px;background-color:#000;font-family:Helvetica,Arial,sans-serif;color:#fff;z-index:10000;font-weight:bold;
+	padding:10px 15px;color:#fff;z-index:10000;font-weight:bold;
 	display:inline;
 }
 .roundedCorners {
-	 -moz-border-radius: 12px; /* FF1+ */
-  -webkit-border-radius: 12px; /* Saf3+, Chrome */
-          border-radius: 12px; /* Opera 10.5, IE 9 */
+	 -moz-border-radius: 10px; /* FF1+ */
+  -webkit-border-radius: 10px; /* Saf3+, Chrome */
+          border-radius: 10px; /* Opera 10.5, IE 9 */
 }
 .transparent {
-	opacity: .75; /* Standard: FF gt 1.5, Opera, Safari */
-	filter: alpha(opacity=75); /* IE lt 8 */
+	opacity: .85; /* Standard: FF gt 1.5, Opera, Safari */
+	filter: alpha(opacity=85); /* IE lt 8 */
 	-ms-filter: "alpha(opacity=75)"; /* IE 8 */
-	-khtml-opacity: .75; /* Safari 1.x */
-	-moz-opacity: .75; /* FF lt 1.5, Netscape */
+	-khtml-opacity: .85; /* Safari 1.x */
+	-moz-opacity: .85; /* FF lt 1.5, Netscape */
 }

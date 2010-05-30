@@ -1,14 +1,17 @@
-_WIDTH  			= 900;
-_HEIGHT 			= 500;
 
-TEXT_COLOR 			= '#828292';
-BG_COLOR   			= '#202023';
+WIDTH  				= 900;
+HEIGHT 				= 500;
+
+WINDOW_WIDTH 		= window.innerWidth;
+WINDOW_HEIGHT 		= window.innerHeight;
 
 FROG_SPEED 			= 0.2;
-FROG_FILL           = '#850';
-//FROG_FILL_OPACITY   = 1;
+FROG_FILL           = '#66cc00';//new Gradient({ endX:0, endY:80, colorStops:[[1, "#339900"], [0, "#66cc00"]] }); //'#00cc00';
+FROG_LEGS_FILL		= '#66cc00';
 FROG_WIDTH			= 30;
 FROG_HEIGHT			= 30;
+FROG_DEATH_MESSAGES = ["SPLAT!","OUCH, THAT ONE HURT","ROADKILL!","...AND YOU'RE DEAD","BEEEEEEEP! OUTTA THE WAY!","YEP, THAT WAS A CAR"];
+FROG_SAFE_MESSAGES = ["BOOM-SHAK-A-LACKA!","GOOOOAAAAALLLLLLLL!","ONE SMALL STEP FOR FROG...","SCORE!","YOU MADE IT!","YOU'RE SAFE"];
 
 CAR_DEFAULT_SPEED 	= 0.1;
 CAR_SIZE 			= 15;
@@ -21,20 +24,24 @@ CAR_STROKE_WIDTH 	= 2;
 
 PLAIN_CAR_WIDTH		= 80;
 PLAIN_CAR_HEIGHT	= 40;
+PLAIN_CAR_SPEED		= 0.08;
 TRUCK_WIDTH 		= 110;
 TRUCK_HEIGHT		= 40;
+TRUCK_SPEED			= 0.06;
 RACECAR_WIDTH		= 80;
 RACECAR_HEIGHT		= 40;
+RACECAR_SPEED		= .12;
 
 FROG_RECEIVER_HEIGHT= 50;
+FROG_RECEIVER_SPACE = 10;
+FROG_RECEIVER_TOTAL_HEIGHT = FROG_RECEIVER_SPACE + FROG_RECEIVER_HEIGHT;
 
-POINTS_FOR_SAFE_FROG= 100;
+NUM_FROG_RECEIVERS	= 5;
 
-GAME_BG_COLOR 		= new Gradient({ endX:_WIDTH, endY:0, colorStops:[[0, "#191919"], [1, "#111115"]] });
-GAME_ERASE_COLOR 	= '#FFF';
+POINTS_FOR_SAFE_FROG = 100;
+POINTS_FOR_CLEARED_LEVEL = 250;
 
-WIDTH  				= _WIDTH;
-HEIGHT 				= _HEIGHT;
+GAME_BG_COLOR 		= '#111';
 
 
 NodesCollided = function(obj1, obj2){
@@ -84,6 +91,7 @@ Frog = function(root, x, y) {
     this.speed = FROG_SPEED;
     this.initial_points = 0;
     this.points = 0;
+	this.animatePosition = 1;
 
     this.initialize = function(root, x, y) {
 
@@ -93,73 +101,81 @@ Frog = function(root, x, y) {
         this.node.x = x - FROG_WIDTH/2;
         this.node.y = y - FROG_HEIGHT/2;        
         this.node.zIndex = 1;
-        
-        this.eraser = new Rectangle(FROG_WIDTH, FROG_HEIGHT);
-        this.eraser.x = x - this.node.w/2;
-        this.eraser.y = y - this.node.h/2;
-        this.eraser.fill = GAME_BG_COLOR;
-        this.eraser.zIndex = 0;
-        		
+
         // Reset the x/y since frog position is relative to the node wrapper:
         x = 0;
         y = FROG_HEIGHT;
         var xPart = FROG_WIDTH/10;
         var yPart = FROG_HEIGHT/10;
                 
-		var frog = new Path([
+		this.frog = new Path([
 		    ['moveTo',           [x+4*xPart,y-yPart*9]],
 			['quadraticCurveTo', [x+5*xPart,y-FROG_HEIGHT, 	x+6*xPart,y-yPart*9]],
-			['quadraticCurveTo', [x+8*xPart,y-yPart*5.5,	x+6*xPart,y-yPart*2]],
+			['quadraticCurveTo', [x+9*xPart,y-yPart*4,	x+6*xPart,y-yPart*2]],
 			['quadraticCurveTo', [x+5*xPart,y-yPart,		x+4*xPart,y-yPart*2]],
-			['quadraticCurveTo', [x+2*xPart,y-yPart*5.5,	x+4*xPart,y-yPart*9]],
-			
-			['moveTo', [x+3*xPart,y-yPart*4]],
-			['lineTo', [x+xPart,y-yPart*6]],
-			['lineTo', [x+2*xPart,y-yPart*7]],
-			['lineTo', [x+2*xPart,y-yPart*6]],
-			['lineTo', [x+4*xPart,y-yPart*4]],
-			
+			['quadraticCurveTo', [x+1*xPart,y-yPart*4,	x+4*xPart,y-yPart*9]],
+		],{
+			fill: FROG_FILL,
+			fillOpacity:1
+		});
+		
+		this.frogRightArm = new Path([
 			['moveTo', [x+7*xPart,y-yPart*4]],
 			['lineTo', [x+9*xPart,y-yPart*6]],
 			['lineTo', [x+8*xPart,y-yPart*7]],
 			['lineTo', [x+8*xPart,y-yPart*6]],
 			['lineTo', [x+6*xPart,y-yPart*4]],
-			
-			['moveTo', [x+6*xPart,y-yPart*2]],
+			['lineTo', [x+7*xPart,y-yPart*4]],
+		],{
+			fill: FROG_FILL,
+			fillOpacity:1
+		});
+		
+		this.frogLeftArm = new Path([
+			['moveTo', [x+3*xPart,y-yPart*4]],
+			['lineTo', [x+xPart,y-yPart*6]],
+			['lineTo', [x+2*xPart,y-yPart*7]],
+			['lineTo', [x+2*xPart,y-yPart*6]],
+			['lineTo', [x+4*xPart,y-yPart*4]],
+			['lineTo', [x+3*xPart,y-yPart*4]],
+		],{
+			fill: FROG_FILL,
+			fillOpacity:1
+		});
+		
+		this.frogLegs = new Path([
+			['moveTo', [x+6*xPart,y-yPart*3]],
 			['lineTo', [x+7*xPart,y-yPart]],
 			['lineTo', [x+6*xPart,y]],
 			['lineTo', [x+7*xPart,y]],			
 			['lineTo', [x+9*xPart,y-yPart*2]],
 			['lineTo', [x+8*xPart,y-yPart*3]],
-			['lineTo', [x+7*xPart,y-yPart*3]],
+			['lineTo', [x+7*xPart,y-yPart*4]],
             
-            ['moveTo', [x+4*xPart,y-yPart*2]],
+            ['moveTo', [x+4*xPart,y-yPart*3]],
             ['lineTo', [x+3*xPart,y-yPart]],
             ['lineTo', [x+4*xPart,y]],
             ['lineTo', [x+3*xPart,y]],
             ['lineTo', [x+xPart,y-yPart*2]],
             ['lineTo', [x+2*xPart,y-yPart*3]],
-            ['lineTo', [x+3*xPart,y-yPart*3]]
-
+            ['lineTo', [x+3*xPart,y-yPart*4]],
 		],{
-			fill: FROG_FILL
+			fill: FROG_LEGS_FILL,
+			fillOpacity:1
 		});
 
-        frog.w = FROG_WIDTH;
-        frog.h = FROG_HEIGHT;
-        frog.zIndex = 3;
-        this.node.append(frog);
-        
+		this.frog.fillOpacity = 1;
+
+        this.node.append(this.frog);
+		this.node.append(this.frogRightArm);
+		this.node.append(this.frogLeftArm);
+		this.node.append(this.frogLegs);
+
         this.root.append(this.node);
-        this.root.append(this.eraser);
     }
 
 	this.up = function() {
-		if (this.node.y<=0){
-			this.root.endGame();
-		} else {
-			this.node.y -= this.node.h*this.speed;
-		}
+		this.node.y -= this.node.h*this.speed;
 	}
 	
 	this.down = function() {
@@ -181,32 +197,45 @@ Frog = function(root, x, y) {
 	}
 
 	this.runOver = function() {
-		this.node.scale = 0.7;
-        this.node.stroke = false;
-        this.node.animateTo('fillOpacity', 0, 500, 'sine');
-        this.node.removeSelf();
-        this.eraser.removeSelf();
+        this.frog.animateTo('fillOpacity', 0, 200, 'sine');
+		this.frogRightArm.animateTo('fillOpacity', 0, 200, 'sine');
+		this.frogLeftArm.animateTo('fillOpacity', 0, 200, 'sine');
+		this.frogLegs.animateTo('fillOpacity', 0, 200, 'sine');
 	}
 	
 	this.destroy = function(){
 	    this.node.removeSelf();
-	    this.eraser.removeSelf();
+	}
+
+	this.handleMove = function(){
+
+		if (this.animatePosition==1){
+			this.frogRightArm.y -= 3;
+			this.frogLeftArm.y += 3;
+			this.frogLegs.y += 4;
+			this.animatePosition = 0;
+		}else{
+			this.frogRightArm.y += 3;
+			this.frogLeftArm.y -= 3;
+			this.frogLegs.y -= 4;
+			this.animatePosition = 1;
+		}
+		
 	}
 
 	this.animate = function(t, dt){
-		this.eraser.x = this.node.x;
-        this.eraser.y = this.node.y;
-        
+		
         if (this.root.keys["Up"]==1){
-        	this.up();
-        }
-        if (this.root.keys["Down"]==1){
+			this.handleMove();     	
+			this.up();
+        } else if (this.root.keys["Down"]==1){
+			this.handleMove();
         	this.down();
-        }
-        if (this.root.keys["Left"]==1){
+        } else if (this.root.keys["Left"]==1){
+			this.handleMove();
         	this.moveLeft();
-        }
-        if (this.root.keys["Right"]==1){
+        } else if (this.root.keys["Right"]==1){
+			this.handleMove();
         	this.moveRight();
         }
 	}
@@ -252,24 +281,26 @@ CarFactory = {
 		var h = base_h;
 		x = (direction=="LEFT") ? 0 : base_w;
         
+		var hPart = h/8
+
 		var path1 = new Path([
-          ['moveTo', [x+0		,h/4]],
-	      ['lineTo', [x+2*w/11	,h/4]],
+          ['moveTo', [x+0		,hPart*2]],
+	      ['lineTo', [x+2*w/11	,hPart]],
 	      ['lineTo', [x+2*w/11	,0]],
 	      ['lineTo', [x+4*w/11	,0]],
-	      ['lineTo', [x+4*w/11	,h/4]],
-	      ['lineTo', [x+5*w/11	,h/4]],
+	      ['lineTo', [x+4*w/11	,hPart]],
+	      ['lineTo', [x+5*w/11	,hPart]],
 	      ['lineTo', [x+5*w/11	,0]],
 	      ['lineTo', [x+w		,0]],
 	      ['lineTo', [x+w		,h]],
 	      ['lineTo', [x+5*w/11	,h]],
-	      ['lineTo', [x+5*w/11	,3*h/4]],
-	      ['lineTo', [x+4*w/11	,3*h/4]],
+	      ['lineTo', [x+5*w/11	,7*hPart]],
+	      ['lineTo', [x+4*w/11	,7*hPart]],
 	      ['lineTo', [x+4*w/11	,h]],
 	      ['lineTo', [x+2*w/11	,h]],
-	      ['lineTo', [x+2*w/11	,3*h/4]],
-	      ['lineTo', [x+0		,3*h/4]],
-	      ['lineTo', [x+0		,h/4]]
+	      ['lineTo', [x+2*w/11	,7*hPart]],
+	      ['lineTo', [x			,6*hPart]],
+	      ['lineTo', [x			,2*hPart]]
         ],{
         	fill: color
         })
@@ -390,31 +421,34 @@ CarFactory = {
 		var h = base_h;
 		x = (direction=="LEFT") ? 0 : base_w;
 				
+		var wPart = w/7;
+		var hPart = h/8;
+				
 		//Car body
 		var path1 = new Path([
 		    ['moveTo', [x+0,h]],
-		    ['moveTo', [x+1*w/7,0]],
-			['lineTo', [x+2*w/7,0]],
-			['lineTo', [x+2*w/7,h/8]],
-			['lineTo', [x+3*w/7,h/8]],
-			['lineTo', [x+3*w/7,0]],
-			['lineTo', [x+5*w/7,0]],
-			['lineTo', [x+5*w/7,h/8]],
-			['lineTo', [x+6*w/7,h/8]],
-			['lineTo', [x+6*w/7,0]],
-			['quadraticCurveTo', [x+w,0, x+w,h/4]],
+		    ['moveTo', [x+1*wPart,0]],
+			['lineTo', [x+2*wPart,0]],
+			['lineTo', [x+2*wPart,hPart]],
+			['lineTo', [x+3*wPart,hPart]],
+			['lineTo', [x+3*wPart,0]],
+			['lineTo', [x+5*wPart,0]],
+			['lineTo', [x+5*wPart,hPart]],
+			['lineTo', [x+6*wPart,hPart]],
+			['lineTo', [x+6*wPart,0]],
+			['quadraticCurveTo', [x+w,0, x+w,hPart*2]],
 			['lineTo', [x+w,3*h/4]],
-			['quadraticCurveTo', [x+w,h, x+6*w/7,h]],
-			['lineTo', [x+6*w/7,h]],
-			['lineTo', [x+6*w/7,35*h/40]],
-			['lineTo', [x+5*w/7,35*h/40]],
-			['lineTo', [x+5*w/7,h]],
-			['lineTo', [x+3*w/7,h]],
-			['lineTo', [x+3*w/7,35*h/40]],
-			['lineTo', [x+2*w/7,35*h/40]],
-			['lineTo', [x+2*w/7,h]],
-			['lineTo', [x+w/7,h]],
-			['quadraticCurveTo', [x+0,h/2, x+1*w/7,0]]
+			['quadraticCurveTo', [x+w,h, x+6*wPart,h]],
+			['lineTo', [x+6*wPart,h]],
+			['lineTo', [x+6*wPart,7*hPart]],
+			['lineTo', [x+5*wPart,7*hPart]],
+			['lineTo', [x+5*wPart,h]],
+			['lineTo', [x+3*wPart,h]],
+			['lineTo', [x+3*wPart,7*hPart]],
+			['lineTo', [x+2*wPart,7*hPart]],
+			['lineTo', [x+2*wPart,h]],
+			['lineTo', [x+wPart,h]],
+			['quadraticCurveTo', [x+0,h/2, x+wPart,0]]
 		],{
 			fill: color
 		});
@@ -432,27 +466,14 @@ Car = function(root, x, y, speed, direction, color, type) {
 
         this.node = CarFactory.makeCar(type,x, y, direction,color);
 	    this.root.append(this.node);
-	    
-        this.eraser = new Rectangle(this.node.w,this.node.h);
-        this.eraser.x = x;
-        this.eraser.y = y;
-        this.eraser.fill = GAME_ERASE_COLOR;
-        this.eraser.fillOpacity = 0;
-        this.eraser.zIndex = 0;
-        
-        this.root.append(this.eraser);
     }
 
     this.destroy = function() {
         this.root.unregister(this);
     	this.node.removeSelf();
-    	this.eraser.removeSelf();
-
     }
 
-
     this.animate = function(t, dt) {
-        this.eraser.x = this.node.x;
     	
         if (this.direction=="LEFT"){
     		this.node.x -= this.speed;
@@ -480,8 +501,8 @@ CarDispatcher = function(root, x, y, speed, direction,type) {
 	this.carColor = [Math.floor(Math.random()*255),Math.floor(Math.random()*255),Math.floor(Math.random()*255),1.0];
 
     this.initialize = function(root, x, y, speed, direction,type) {
-		this.speed = Math.floor(Math.random()*10);	
-		this.space_between_cars = Math.random()*50+150;
+		this.speed = Math.floor(Math.random()*8+1);	
+		this.space_between_cars = Math.random()*50+180;
 		this.y = y;
 		this.x = x;
 		this.direction = direction; // LEFT or RIGHT
@@ -506,7 +527,6 @@ CarDispatcher = function(root, x, y, speed, direction,type) {
 	this.destroy = function(){
     	for(var i=0;i<this.cars.length;i++){
 			this.cars[i].node.removeSelf();
-			this.cars[i].eraser.removeSelf();
 		}
 	}
 	
@@ -593,10 +613,10 @@ FrogReceiver = function(root,x,y,w,h){
             ['lineTo', [x+9*xPart, y]],
             ['lineTo', [x+5*xPart, y]]
         ], {
-            fill: '#850'
+            fill: '#cccc00'
         });
     	
-        this.star.fill = '#dcdcdc';
+		this.node.fill = "#663300";
         this.root.append(this.star);
     }
 	
@@ -618,14 +638,16 @@ FrogReceiver = function(root,x,y,w,h){
 Scoreboard = function(root){
 	score: 0;
 	lives: 5;
-	timer: 0;
 	level: 1;
 	
 	this.initialize = function(root){
 		this.score = 0;
 		this.lives = 5;
-		this.timer = 0;
 		this.level = 1;
+		
+		this.scoreDiv = document.getElementById("score");
+		this.livesDiv = document.getElementById("lives");
+		this.levelDiv = document.getElementById("level");
 	}
 	
 	this.scoreSafeFrog = function(){
@@ -636,40 +658,22 @@ Scoreboard = function(root){
 	this.scoreKilledFrog = function(){
 		this.lives -= 1;
 		if (this.lives==0){
+			this.updateStats();
 			this.root.endGame();
 		}
 		this.updateStats();
 	}
 
 	this.scoreFinishedLevel = function(){
-		if (this.timer < 10000){
-			this.score += (10000 - this.timer) + POINTS_FOR_SAFE_FROG;
-		} else {
-			this.score += POINTS_FOR_SAFE_FROG;
-		}
-		this.timer = 0;
+		this.score += POINTS_FOR_SAFE_FROG;
+		this.score += POINTS_FOR_CLEARED_LEVEL;
 		this.level += 1;
 	}
 
 	this.updateStats = function(){
-		var x = document.getElementById("score")
-		x.innerHTML = "Score: " + this.score;
-		
-		var x = document.getElementById("lives")
-		x.innerHTML = "Lives: " + this.lives;
-		
-		var x = document.getElementById("level")
-		x.innerHTML = "Level: " + this.level;
-	}
-	
-	this.updateTimer = function(){
-		var x = document.getElementById("timer")
-		x.innerHTML = "Time: " + this.timer;
-	}
-	
-	this.timerTick = function(){
-		this.timer += 1;
-		this.updateTimer();
+		this.scoreDiv.innerHTML = this.score + "pts";
+		this.livesDiv.innerHTML = "x" + this.lives;
+		this.levelDiv.innerHTML = "Level: " + this.level;
 	}
 
 	this.sendFinalScore = function(){
@@ -701,7 +705,7 @@ Scoreboard = function(root){
 
 
 FroggerGame = Klass(CanvasNode, {
-	frogReceiverHeight: 50,
+	paused: false,
 
     initialize : function(canvasElem) {
         CanvasNode.initialize.call(this);
@@ -713,6 +717,7 @@ FroggerGame = Klass(CanvasNode, {
 
 		// setup the background
 		this.setupBg();
+		this.setupMessage();
 		
 		this.user = null; // Put fbUser here
 		
@@ -720,11 +725,14 @@ FroggerGame = Klass(CanvasNode, {
 		this.scoreboard = new Scoreboard(this);
 		
 		// number of frogs + targets at the top for frogs to reach
-		this.numFrogs = 5;
+		this.numFrogs = NUM_FROG_RECEIVERS;
 		
 		// setup the mapping for catching key presses
         this.keys = { "Up" : 0, "Down" : 0, "Left" : 0, "Right" : 0, "Ctrl" : 0 };
 
+		// show the get ready message while we start things...:
+		this.showMessage("Get Ready...",1000);
+		
 		// Initialize a new game
         this.startGame();
     },
@@ -734,7 +742,34 @@ FroggerGame = Klass(CanvasNode, {
         this.bg.fill = GAME_BG_COLOR;
         this.bg.zIndex = -1000;
         this.append(this.bg);
+
+		var middleGrass = new Rectangle(WIDTH,50);
+		middleGrass.fill = new Gradient({ endX:0, endY:50, colorStops:[[1, "#336600"], [0.5, "#006600"], [0,"#336600"]] });
+		middleGrass.y = FROG_RECEIVER_TOTAL_HEIGHT + 180;
+		this.append(middleGrass);
+
+		var bottomGrass = new Rectangle(WIDTH,80);
+		bottomGrass.fill = new Gradient({ endX:0, endY:80, colorStops:[[1, "#339900"], [0, "#003300"]]});
+		bottomGrass.y = FROG_RECEIVER_TOTAL_HEIGHT + 360;
+		this.append(bottomGrass);
     },
+
+	setupMessage : function() {
+		// Setup the basic message box we'll use for telling the user stuff
+		this.message = document.getElementById("message");
+		this.message.style.top = WINDOW_HEIGHT/2 + "px";
+	    this.message.style.left = WINDOW_WIDTH/2-150 + "px";
+	},
+	
+	showMessage : function(message,duration){
+		this.message.innerHTML = message;
+		this.message.style.display = "block";
+		var context = this;
+		setTimeout(function(){
+			var msg = document.getElementById("message");
+			msg.style.display = "none";
+		},duration)
+	},
     
 	startGame: function() {
 		this.addNewFrog();
@@ -747,21 +782,20 @@ FroggerGame = Klass(CanvasNode, {
 		for (var f=0,ff=this.numFrogs;f<ff;f++){
 			this.frogReceivers.push(new FrogReceiver(this,
 											(WIDTH/this.numFrogs)*f, 
-											this.frogReceiverHeight, 
+											FROG_RECEIVER_HEIGHT, 
 											(WIDTH/this.numFrogs),  
-											this.frogReceiverHeight)); 
+											FROG_RECEIVER_HEIGHT)); 
 		}
 		
 		
-		var offset = 10+this.frogReceiverHeight;
 		// Instantiate the Car Dispatchers on top (not actually drawn on canvas, just placeholders where the cars come from)
-		this.carDispatchers.push(new CarDispatcher(this, WIDTH, offset,CAR_DEFAULT_SPEED, "LEFT","RACECAR"));
-		this.carDispatchers.push(new CarDispatcher(this, WIDTH, offset+60,CAR_DEFAULT_SPEED, "LEFT","TRUCK"));
-		this.carDispatchers.push(new CarDispatcher(this, WIDTH, offset+120,CAR_DEFAULT_SPEED, "LEFT","PLAINCAR"));
+		this.carDispatchers.push(new CarDispatcher(this, WIDTH, FROG_RECEIVER_TOTAL_HEIGHT , RACECAR_SPEED, "LEFT","RACECAR"));
+		this.carDispatchers.push(new CarDispatcher(this, WIDTH, FROG_RECEIVER_TOTAL_HEIGHT + 60,TRUCK_SPEED, "LEFT","TRUCK"));
+		this.carDispatchers.push(new CarDispatcher(this, WIDTH, FROG_RECEIVER_TOTAL_HEIGHT + 120,PLAIN_CAR_SPEED, "LEFT","PLAINCAR"));
 		
 		// Instantiate the Car Dispatchers (not actually drawn on canvas, just placeholders where the cars come from)
-		this.carDispatchers.push(new CarDispatcher(this, -100, offset+240,CAR_DEFAULT_SPEED, "RIGHT","TRUCK"));
-		this.carDispatchers.push(new CarDispatcher(this, -100, offset+300,CAR_DEFAULT_SPEED, "RIGHT","RACECAR"));
+		this.carDispatchers.push(new CarDispatcher(this, -100, FROG_RECEIVER_TOTAL_HEIGHT + 240,TRUCK_SPEED, "RIGHT","TRUCK"));
+		this.carDispatchers.push(new CarDispatcher(this, -100, FROG_RECEIVER_TOTAL_HEIGHT + 300,RACECAR_SPEED, "RIGHT","RACECAR"));
 		
 		// Start the animation
         this.addFrameListener(this.animate);
@@ -788,10 +822,12 @@ FroggerGame = Klass(CanvasNode, {
     endGame : function() {
 		var context = this;
 		
+		this.showMessage("GAME OVER!",5000);
+		
 		if (!this.user){
 			FB.getLoginStatus(function(response) {
 			  if (response.session) {
-				$("#fbLogin").show();
+				document.getElementById("fbLogin").style.display = "block";
 			  } else {
 			    context.getUser();
 			  }
@@ -823,33 +859,45 @@ FroggerGame = Klass(CanvasNode, {
 	recordDeadFrog : function(){
 		this.frog.runOver();
 		this.scoreboard.scoreKilledFrog();
-		this.addNewFrog();
+		if (this.scoreboard.lives!=0){
+			this.showMessage(FROG_DEATH_MESSAGES[Math.floor(Math.random()*FROG_DEATH_MESSAGES.length)],1000);
+			this.addNewFrog();
+		}
 	},
 
 	recordSafeFrog : function(){
 		this.scoreboard.scoreSafeFrog();
 		this.frogsLeft -= 1;
+		var context = this;
 		if (this.frogsLeft==0){
+			this.showMessage("Nice Job...Starting Level " + (this.scoreboard.level+1),1000);
 			this.nextLevel();
 		} else {
+			this.showMessage(FROG_SAFE_MESSAGES[Math.floor(Math.random()*FROG_SAFE_MESSAGES.length)],1000);
 			this.addNewFrog();
 		}
 	},
 
 	addNewFrog : function(){
-		// Add popup so new frog doesn't go flying up into cars
-		this.frog = new Frog(this,HEIGHT-10,WIDTH/2);
-		this.scoreboard.updateStats();
+		var context = this;
+		this.paused = true;
+		setTimeout(function(){
+			context.frog = new Frog(context,HEIGHT-10,WIDTH/2);
+			context.scoreboard.updateStats();
+			context.paused = false;
+		},1000)
 	},
-
 
     key : function(state, name) {
     	this.keys[name] = state;
     },
     
     animate: function(t, dt){
+		if (this.paused){
+			return false;
+		}
+		
 		this.frog.animate(t, dt);
-		this.scoreboard.timerTick();
 
     	for(var i=0;i<this.carDispatchers.length;i++){
     		this.carDispatchers[i].animate(t, dt);
@@ -865,7 +913,7 @@ FroggerGame = Klass(CanvasNode, {
     	}
     	
     	// The if doesn't event get entered unless the frog breaks the y-axis plane of the receivers at the top
-		if (this.frog.node.y<this.frogReceiverHeight){
+		if (this.frog.node.y<FROG_RECEIVER_HEIGHT){
 			for(var r=0,rr=this.frogReceivers.length;r<rr;r++){
 				if(NodesCollided(this.frog.node,this.frogReceivers[r])){
 					if (this.frogReceivers[r].isEmpty){
