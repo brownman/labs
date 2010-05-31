@@ -28,8 +28,14 @@
 					<h2>Leaderboard:</h2>
 					<ol>
 					{% for s in plays %}
-						<li>
-							<span class='name'>{{ s.user.first_name }} {{ s.user.last_name }}</span> - <span class='score'>{{ s.score }}</span><span class='date'>({{ s.create_date }})</span>
+						<li class='leaderItem'>
+							<span class='rank'>{{ forloop.counter }}.</span>
+							<a href='http://facebook.com/{{ s.user.userid }}' class='user'>
+								<img src='http://graph.facebook.com/{{ s.user.userid }}/picture/' alt='' />
+							</a>
+								<span class='date'>{{ s.create_date|timesince }} ago</span>
+								<span class='score'>{{ s.score }}</span>
+								<span class='name'>{{ s.user.first_name }} {{ s.user.last_name }}</span>
 						</li>
 					{% empty %}
 						<li>No Scores Recorded</li>
