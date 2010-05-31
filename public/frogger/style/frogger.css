@@ -107,7 +107,7 @@ a:hover {color:#990000;}
 .leaderItem .rank {font-size:200%;float:left;margin-right:5px;width:30px;text-align:left;line-height:0.8;}
 .leaderItem img {float:left;margin-right:5px;width:50px;}
 .leaderItem .user {float:left;}
-.leaderItem .name {width:140px;float:left;line-height:0.8;}
+.leaderItem .name {width:120px;float:left;}
 .leaderItem .score {font-size:200%;float:left;position:relative;width:120px;line-height:0.8;}
 .leaderItem .date {font-size:90%;line-height:0.8;float:right;width:40px;}
 
