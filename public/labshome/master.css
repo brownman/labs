@@ -62,8 +62,8 @@ h6 {font-size:130%;}
 
 h1, h2, h3, h4, h5, h6, p {padding-bottom:10px;font-weight:normal;}
 
-a {color:#660000;}
-a:hover {color:#990000;}
+a {color:#333;}
+a:hover {color:#111;}
 
 .clear {clear:both;}
 
@@ -82,7 +82,9 @@ a:hover {color:#990000;}
 		#bodyInner {margin-left:auto;margin-right:auto;width:900px;}
 
 
-
+	#labsList li {float:left;clear:both;margin-bottom:10px;}
+	#labsList img {margin-right:10px;float:left;}
+	#labsList .title {font-size:180%;padding-bottom:5px;}
 
 
 /* Form Controls */
