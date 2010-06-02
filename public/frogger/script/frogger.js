@@ -824,14 +824,16 @@ FroggerGame = Klass(CanvasNode, {
 		
 		this.showMessage("GAME OVER!",5000);
 		
-		if (!this.user){
-			var loginDiv = document.getElementById("fbLogin");
-			loginDiv.style.top = (WINDOW_HEIGHT/2-90) + "px";
-		 	loginDiv.style.left = WINDOW_WIDTH/2-150 + "px";
-			loginDiv.style.display = "block";
-		} else {
-			this.getUser();
-		}
+		FB.getLoginStatus(function(response){
+			if(response.session){
+				context.getUser();
+			} else {
+				var loginDiv = document.getElementById("fbLogin");
+				loginDiv.style.top = (WINDOW_HEIGHT/2-90) + "px";
+			 	loginDiv.style.left = WINDOW_WIDTH/2-150 + "px";
+				loginDiv.style.display = "block";	
+			}
+		});
 		
 		this.removeFrameListener(this.animate);
 		this.cleanUpCanvas();

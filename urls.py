@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     # Add labs here:
 	(r'^frogger/', include('frogger.urls')),
     (r'^spacecannon/', include('homeinspace.urls')),
+	(r'^reptar/', include('reptar.urls')),
     
 	# Admin docs:
     (r'^admin/', include(admin.site.urls)),
