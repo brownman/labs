@@ -757,7 +757,7 @@ FroggerGame = Klass(CanvasNode, {
 	setupMessage : function() {
 		// Setup the basic message box we'll use for telling the user stuff
 		this.message = document.getElementById("message");
-		this.message.style.top = (FROG_RECEIVER_TOTAL_HEIGHT + 225) + "px";
+		this.message.style.top = (FROG_RECEIVER_TOTAL_HEIGHT + 160) + "px";
 	    this.message.style.left = WINDOW_WIDTH/2-150 + "px";
 	},
 	
