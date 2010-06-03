@@ -84,8 +84,9 @@ a:hover {color:#111;}
 
 	#labsList li {float:left;clear:both;margin-bottom:10px;}
 	#labsList img {margin-right:10px;float:left;}
-	#labsList .title {font-size:180%;padding-bottom:5px;}
-
+	#labsList .title {font-size:180%;padding-bottom:0px;}
+	#labsList .date {color:#a9a9a9;line-height:1.0;padding-bottom:5px;}
+	#labsList a:hover p {color:#000;}
 
 /* Form Controls */
 form label {}
