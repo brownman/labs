@@ -4,9 +4,8 @@
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>Space Cannon 3D: A music-driven, 3D Javascript game</title>
-	<meta name="robots" content="NOFOLLOW,NOINDEX">
-	<meta name="description" content="A 3D Javascript/HTML5 game driven by an Echonest audio analysis">
+	<title>Space Cannon 3D: A music-driven, 3D HTML5 / Javascript Game</title>
+	<meta name="description" content="A 3D HTML5 / Javacript game driven by the acoustical data of music from the band 'shutters'">
 	<meta name="keywords" content="brian,stoner,space,cannon,tech,labs,javascript,3d,html5,echonest,music,shutters,home,space,game,web game,chrome">
 	<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz' rel='stylesheet' type='text/css'>
 	<link href="/site_media/spacecannon/style/game.css" rel="stylesheet" type="text/css" />
@@ -58,9 +57,9 @@
 				<p>It will run in Internet Explorer if you download the <a href="http://google.com/chromeframe">Google Chrome Frame Plugin</a>.  Enjoy!</p>
 				<h2>About:</h2>
 				<p>The goal of the game is to shoot as many of the flying space particles as you can before the song is over. Moving the mouse aims the cannon and clicking will fire a shot.</p>
-				<p>This game was built to see how some of the latest web technologies standards can be used to create
-					new kinds of interactive experiences natively in a web browser.</p>
-				<p>Most of the gameplay is driven by acoustical data from the song:</p>
+				<p>This game was built to see how mashing together some newer web technologies, frameworks and API's can be used to create
+					new kinds of interactive experiences natively in the web browser.</p>
+				<p>Most of the gameplay is driven by meta data from the song retrieved using the Echonest API:</p>
 					<ul>
 						<li>1. The horizontal rows in the blue terrain at the bottom will move higher or lower with the loudness of the song.  The horizon of the terrain representing the current place in the song.</li>
 						<li>2. Spikes in the terrain will occur within each row at different places along the x-axis depending on the current pitch of the song (from C on the left, to B on the right).</li>
@@ -69,13 +68,13 @@
 					</ul>
 				<p>Unfortunately the rendering and gameplay require a lot of processing power, and in my tests the Webkit javascript engine (Google Chrome and Safari) was the only one that could handle it consistently.  Firefox will run it, but once it has to start trying to do the collision detection calc's it really slows down and stutters.  I'm definitely new to 3D animation and gaming so there's probably better ways to do some of the calc's and so I may look at trying to improve performance.  If anyone has tips/suggestions let me know.</p>
 				<h2>The Technology:</h2>
-				<p>Here's what I used to pull the game together:</p>
+				<p>Here's what I used to pull it together:</p>
 					<ul>
 						<li><a href="http://github.com/mrdoob/three.js" title="threejs">Three.js:</a> A 3D javascript rendering library built by <a href="http://mrdoob.com">Mr. Doob</a>.  3D animation and rendering was totally new to me when I started this last weekend, so his simple library and examples were essential to being able to pull this together.</li>
 						<li><a href="http://echonest.com">Echonest API </a> It's like an API into a song.  I had used this a while back, but this was the first time I really dug into the minutia of data they can provide for an uploaded song.  I did have to massage some of it, but I never would have been able to get all the data by hand.</li>
 						<li><a href="http://dev.w3.org/html5/spec/Overview.html" title="HTML5 spec">HTML5</a> Everyone's favorite buzzword of the minute.  The game uses the canvas and audio elements.</li>
 					</ul>
-				<p>There's no server side code going on here, so you can get all the source just from inspecting, though I may throw it up on github.  There's no license, so feel free to do whatever you want with any of it.
+				<p>There's no server side code going on here (with the exception of the python script I used to get the data from Echonest).  All the source code is available on <a href="http://github.com/bsstoner/labs">github</a>.</p>
 				<p><a href="http://brian-stoner.com">Brian</a> (<a href="http://twitter.com/bsstoner" title="twitter">@bsstoner</a>)</p>
 			</div>
 		</div>
