@@ -6,7 +6,6 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">  
 	<meta http-equiv="X-UA-Compatible" content="chrome=1">
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
 	<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>-->
 	
 	<title>Reptar - Houseboat Babies</title>
@@ -29,14 +28,15 @@
 	<script type="text/javascript" src="/site_media/reptar/script/reptar.js"></script>
 </head>
 <body onload="init();" class="noSelection">
-	<div id="chrome_frame"></div>
-	<div id="message" class="textOverlay transparent roundedCorners">
-		Loading...
+	<div id="pageWrapper">
+		<div id="message" class="textOverlay transparent roundedCorners">
+			Loading...
+		</div>
+
+		<div id="screen"></div>
+
+		<div id="score" class="textOverlay transparent roundedCorners noSelection"></div>
+		<div id="timer" class="textOverlay transparent roundedCorners noSelection"></div>
 	</div>
-
-	<div id="screen"></div>
-
-	<div id="score" class="textOverlay transparent roundedCorners noSelection"></div>
-	<div id="timer" class="textOverlay transparent roundedCorners noSelection"></div>
 </body>
 </html>

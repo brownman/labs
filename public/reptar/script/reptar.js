@@ -11,6 +11,7 @@ var RepGame = Class.extend({
 	canvas: null,
 	context: null,
 
+	sticky: null,
 	buildings: null,
 
 	init: function(){
@@ -19,6 +20,8 @@ var RepGame = Class.extend({
 		// Instantiate Objects:
 		this.earth = new RepEarth(this.context);
 		this.buildings = new RepBuildingFactory(this.context);
+		this.sticky = new RepStickFigure(this.context);
+		
 		this.message = new RepMessageManager();
 		this.audio = new RepSong();
 				
@@ -56,8 +59,10 @@ var RepGame = Class.extend({
 		this.context.clearRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
 		
 		// Update the objects and redraw them:
-		this.buildings.animate(this.audio.timer,this.audio.changedBeat);
-		this.earth.animate(this.audio.timer);
+		var offset = Math.sin(this.audio.timer)*20;
+		this.sticky.animate(offset);
+		this.buildings.animate(offset,this.audio.changedBeat,this.audio.curSeg);
+		this.earth.animate(offset);
 	}
 });
 
@@ -133,9 +138,6 @@ var RepBuildingFactory = Class.extend({
 	context: null,
 	buildings: null,
 	
-	x: SCREEN_WIDTH,
-	y: SCREEN_HEIGHT,
-	
 	xStep: SCREEN_WIDTH / 400,
 	
 	x1: 0,
@@ -152,6 +154,8 @@ var RepBuildingFactory = Class.extend({
 	init: function(context){
 		this.context = context;
 		this.buildings = [];
+		
+		this.calcABC();
 	},
 	
 	calcABC: function(){
@@ -168,11 +172,10 @@ var RepBuildingFactory = Class.extend({
 		return (this.a * x * x) + (this.b * x) + this.c;
 	},
 	
-	animate: function(timer,changedBeat){
-		var offset = Math.sin(timer)*20);
+	animate: function(offset,changedBeat,curSeg){
 		
 		if (changedBeat){
-			this.buildings.push(new RepBuilding(this.context));
+			this.buildings.push(new RepBuilding(this.context,50,(40+segmentLoudness[curSeg])*6));
 		}
 		
 		for (var b=0;b<this.buildings.length;b++){
@@ -182,7 +185,7 @@ var RepBuildingFactory = Class.extend({
 				delete this.buildings[b];
 			}
 			bldg.x  -= this.xStep;
-			bldg.y = this.f(this.x);
+			bldg.y = this.f(bldg.x);
 			bldg.animate(offset);
 		}
 	}
@@ -205,20 +208,23 @@ var RepBuilding = Class.extend({
 		this.w = w;
 		this.h = h;
 		
-		this.calcABC();
-		
 		// Doesn't draw itself on init
 	},
 	
 	drawSelf: function(offset){
-		
 		var secantSlope = (this.x > this.x2) ? Math.atan2(this.y - this.y2, this.x - this.x2) : Math.atan2(this.y2 - this.y, this.x2 - this.x);
 		
 		this.context.save();
-		this.context.translate(this.x,this.y-offset);
+		this.context.translate(this.x,this.y - offset/2);
 		this.context.rotate(secantSlope * (115 * Math.PI / 180));
+		
+		this.context.fillStyle = "#333";
+		this.context.fillRect(this.w/3, 0, this.w/3, -10 - offset/4);
+		
+		
 		this.context.fillStyle = "#dcdcdc";
-		this.context.fillRect(0, 0, this.w + offset , -1 * this.h - offset);
+		this.context.fillRect(0, 0, this.w , -1 * this.h - offset/2);
+		
 		this.context.restore();
 	},
 	
@@ -230,14 +236,21 @@ var RepBuilding = Class.extend({
 
 var RepEarth = Class.extend({
 	context: null,
+	gradient: null,
 	
 	init: function(context){		
 		this.context = context;
-		this.drawSelf(1);
+
+		this.gradient = this.context.createRadialGradient(SCREEN_WIDTH / 2, SCREEN_HEIGHT , SCREEN_WIDTH / 2 , SCREEN_WIDTH / 2, SCREEN_HEIGHT - SCREEN_HEIGHT / 100, 0); 
+		this.gradient.addColorStop(1, "#66CD00");
+		this.gradient.addColorStop(0, "#55aD00");
+		//this.gradient.addColorStop(1, 'rgba(1, 159, 98, 0)');
+
+		this.drawSelf(0);
 	},
 
 	drawSelf: function(scale){
-		this.context.fillStyle = "#66CD00";//"rgba(200,200,200,0.3)";
+		this.context.fillStyle = this.gradient; //"#66CD00"; //"rgba(200,200,200,0.3)";
 		this.context.beginPath();
 		this.context.moveTo(0-scale,SCREEN_HEIGHT);
 		this.context.quadraticCurveTo(SCREEN_WIDTH/2,(SCREEN_HEIGHT/2)-scale, SCREEN_WIDTH+scale,SCREEN_HEIGHT);
@@ -246,9 +259,50 @@ var RepEarth = Class.extend({
 		
 	},
 	
-	animate: function(timer){
-		this.drawSelf(Math.sin(timer)*20);
-		//this.drawSelf(0);
+	animate: function(offset){
+		this.drawSelf(offset);
+	}
+	
+});
+
+var RepStickFigure = Class.extend({
+	context: null,
+	x: 0,
+	y: 0,
+	w: 0,
+	h: 0,
+	
+	init: function(context){
+		this.context = context;
+		this.w = 20;
+		this.h = 50,
+		this.x = SCREEN_WIDTH / 2;
+		this.y = SCREEN_HEIGHT - SCREEN_HEIGHT/5;
+	},
+	
+	drawSelf: function(offset){
+		offset = offset / 2; //soften the wobble a little for sticky
+		
+		this.context.beginPath();
+		this.context.fillStyle = "#fff";
+		this.context.strokeStyle = "#464646";
+		
+		// head
+		this.context.arc(this.x + offset / 2 , this.y - offset - this.h + 10, 10 , 0 , Math.PI*2 , true);
+				
+		// feet
+		this.context.moveTo(this.x , this.y - offset);
+		this.context.arc(this.x , this.y - offset - 5 , 5 , 0 , Math.PI*2 , true);
+		
+		this.context.moveTo(this.x + this.w, this.y - offset);
+		this.context.arc(this.x + this.w, this.y - offset - 5 , 5 , 0 , Math.PI*2 , true);
+
+		this.context.stroke();
+		this.context.fill();
+	},
+	
+	animate: function(offset){
+		this.drawSelf(offset);
 	}
 	
 });
