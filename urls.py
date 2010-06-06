@@ -11,6 +11,7 @@ urlpatterns = patterns('',
 	(r'^frogger/', include('frogger.urls')),
     (r'^spacecannon/', include('homeinspace.urls')),
 	(r'^reptar/', include('reptar.urls')),
+	(r'^syncshow/', include('syncshow.urls')),
     
 	# Admin docs:
     (r'^admin/', include(admin.site.urls)),
