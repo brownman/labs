@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 
 import gdata.gauth
 import gdata.docs.client
+import gdata.docs.service
 import gdata.photos.service
 import gdata.media
 import gdata.geo
@@ -41,20 +42,20 @@ def goog_login(request):
 	#	request.session['request_token']['oauth_token'],
 	#	"&oauth_callback=http://127.0.0.1:8000/googauth/login/authenticated")
 
+	#client.SetOAuthInputParameters(scopes,oauth_callback,settings.GOOGLE_TOKEN, consumer_secret=settings.GOOGLE_SECRET)
 	request_token = client.GetOAuthToken(scopes,oauth_callback,settings.GOOGLE_TOKEN, consumer_secret=settings.GOOGLE_SECRET)
 
-	request.session['request_token'] = request_token.token
-	request.session['request_token_secret'] = request_token.token_secret
+	request.session['request_token'] = request_token
+	#request.session['request_token_secret'] = request_token.token_secret
 
-	return HttpResponseRedirect(request_token.generate_authorization_url(google_apps_domain=None))
+	return HttpResponseRedirect(request_token.generate_authorization_url())
 
 def goog_logout(request):
 	logout(request)
 	return HttpResponseRedirect('/syncshow/')
 
 def goog_authenticated(request):
-	saved_request_token = oauth.Token(request.session['request_token'],
-		request.session['request_token_secret'])
+	saved_request_token = request.session['request_token']
 		
 	print saved_request_token
 	#client = oauth.Client(consumer, token)
@@ -65,18 +66,24 @@ def goog_authenticated(request):
 	#	raise Exception("Invalid response from Google.")
 
 	#access_token = dict(cgi.parse_qsl(content))
-
-	request_token = gdata.gauth.AuthorizeRequestToken(saved_request_token, self.request.uri)
 	
-	print 'req_token', request_token
+	client = gdata.docs.client.DocsClient(source='yourCompany-YourAppName-v1')
+	
+	request_token = gdata.gauth.AuthorizeRequestToken(saved_request_token, request.path + "?" + request.META["QUERY_STRING"])
+	
 	access_token = client.GetAccessToken(request_token)
-	print 'access_token', access_token
 	
-	feed = client.GetDocumentListFeed()
+	print 'at!!',access_token.token, 'ats!!!',access_token.token_secret
+	
+	#gclient = gdata.docs.service.DocsService(source='yourCompany-YourAppName-v1')
+	#gclient.SetOAuthInputParameters(gdata.auth.OAuthSignatureMethod.HMAC_SHA1, settings.GOOGLE_TOKEN, consumer_secret=settings.GOOGLE_SECRET)
+	#gclient.SetOAuthToken(gdata.auth.OAuthToken(key=access_token.token, secret=access_token.token_secret))
+	
+	print 'ready to go...'
+	
+	feed = client.GetDocList()
 	for entry in feed.entry:
 		print entry.title.text
-	
-	fdsa
 	
 	#try:
 	#	user = User.objects.get(username='googauth_' + access_token['oauth_token'])
