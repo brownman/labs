@@ -13,6 +13,8 @@ urlpatterns = patterns('',
 	(r'^reptar/', include('reptar.urls')),
 	(r'^syncshow/', include('syncshow.urls')),
     
+	(r'^googauth/', include('googauth.urls')),
+
 	# Admin docs:
     (r'^admin/', include(admin.site.urls)),
 
