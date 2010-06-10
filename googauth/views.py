@@ -24,7 +24,7 @@ scopes = ["https://docs.google.com/feeds/","http://picasaweb.google.com/data/"]
 
 client = gdata.docs.client.DocsClient(source="labs.brian-stoner.com")
 
-oauth_callback = "http://labs.brian-stoner.com/googauth/login/authenticated"
+oauth_callback = "http://127.0.0.1:8000/googauth/login/authenticated"
 
 #request_token_url = 'https://www.google.com/accounts/OAuthGetRequestToken?scope=' + scope
 #access_token_url = 'https://www.google.com/accounts/OAuthGetAccessToken'
@@ -57,7 +57,6 @@ def goog_logout(request):
 def goog_authenticated(request):
 	saved_request_token = request.session['request_token']
 		
-	print saved_request_token
 	#client = oauth.Client(consumer, token)
 
 	#resp, content = client.request(access_token_url, "GET")
@@ -68,20 +67,14 @@ def goog_authenticated(request):
 	#access_token = dict(cgi.parse_qsl(content))
 	
 	client = gdata.docs.client.DocsClient(source='yourCompany-YourAppName-v1')
-	
 	request_token = gdata.gauth.AuthorizeRequestToken(saved_request_token, request.path + "?" + request.META["QUERY_STRING"])
-	
 	access_token = client.GetAccessToken(request_token)
-	
-	print 'at!!',access_token.token, 'ats!!!',access_token.token_secret
 	
 	#gclient = gdata.docs.service.DocsService(source='yourCompany-YourAppName-v1')
 	#gclient.SetOAuthInputParameters(gdata.auth.OAuthSignatureMethod.HMAC_SHA1, settings.GOOGLE_TOKEN, consumer_secret=settings.GOOGLE_SECRET)
 	#gclient.SetOAuthToken(gdata.auth.OAuthToken(key=access_token.token, secret=access_token.token_secret))
 	
-	print 'ready to go...'
-	
-	feed = client.GetDocList()
+	feed = client.GetDocList(auth_token=access_token)
 	for entry in feed.entry:
 		print entry.title.text
 	

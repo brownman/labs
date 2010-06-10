@@ -15,11 +15,13 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 	vertical-align: baseline;
 	background: transparent;
 	text-decoration:none;
-	color:#333;
+	color:#666;
 }
 body {
 	line-height: 1.4;
-	font-family:'Yanone Kaffeesatz',Georgia,Times,serif;
+	font-family:'Trebuchet MS', Geneva, sans-serif;
+	font-size:90%;
+
 }
 ol, ul {
 	list-style: none;
@@ -53,40 +55,53 @@ table {
 }
 
 
-h1 {font-size:280%;}
-h2 {font-size:230%;}
-h3 {font-size:180%;}
-h4 {font-size:170%;}
-h5 {font-size:150%;}
-h6 {font-size:130%;}
+h1 {font-size:250%;color:#333;letter-spacing:-1px;font-family:Tahoma, Geneva, sans-serif;}
+h2 {font-size:210%;}
+h3 {font-size:150%;color:#666;font-family:'Trebuchet MS', Geneva, sans-serif;}
+h4 {font-size:150%;}
+h5 {font-size:130%;}
+h6 {font-size:120%;}
 
-h1, h2, h3, h4, h5, h6, p {padding-bottom:10px;font-weight:normal;}
+h1, h2, h3, h4, h5, h6 {font-weight:normal;padding-bottom:10px;}
 
-a {color:#333;}
+a {color:#666;}
 a:hover {color:#111;}
 
 .clear {clear:both;}
 
 /* Main Structure */
-#pageWrapper {width:100%;height:100%;display:table;}
+#pageWrapper {width:100%;height:100%;display:table;position:relative;}
 
 	#headerWrapper {width:100%;position:relative;}
-		#headerTop, #headerBottom {margin-left:auto;margin-right:auto;position:relative;width:900px;padding:20px 0;}
+		#headerTop, #headerBottom {margin-left:auto;margin-right:auto;position:relative;width:900px;padding:20px 10px;}
 		#headerTop {height:40px;}
 
 		#headerTop h1 {display:inline;padding-right:5px;}
 		#headerTop img {top:3px;position:relative;}
-		#headerTop span {font-size:200%;color:#dcdcdc;padding-left:5px;}
+		#headerTop span {font-size:200%;color:#ccc;padding-left:5px;}
 		
-	#bodyWrapper {width:100%;position:relative;clear:both;margin-top:20px;}
-		#bodyInner {margin-left:auto;margin-right:auto;width:900px;}
+	#bodyWrapper {width:100%;height:100%;margin-top:20px;min-height:600px;}
+
+		#labsList li {float:left;clear:both;width:100%;}
+		#labsList li div {margin-left:auto;margin-right:auto;width:900px;padding:10px;height:100px;overflow:hidden;}
+
+			/*#labsList li:hover {background-color:#eee;}*/
+		
+		#labsList a {display:block;}
+		#labsList img {margin-right:10px;float:left;}
+		#labsList .title {padding-bottom:5px;}
+		#labsList .date {color:#666;line-height:1.0;padding-bottom:5px;}
+
+		#footerWrapper {width:100%;background-color:#ccc;position:relative;left:0px;bottom:0px;margin-top:50px;float:left;clear:both;}
+			#footerInner {width:950px;margin:0 auto;min-height:100px;margin-top:20px;}
 
 
-	#labsList li {float:left;clear:both;margin-bottom:10px;}
-	#labsList img {margin-right:10px;float:left;}
-	#labsList .title {font-size:180%;padding-bottom:0px;}
-	#labsList .date {color:#a9a9a9;line-height:1.0;padding-bottom:5px;}
-	#labsList a:hover p {color:#000;}
+#labsList li:hover, #footerWrapper {
+  background-image: -moz-linear-gradient(top, #eee, #ddd); /* FF3.6 */
+  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #eee),color-stop(1, #ddd)); /* Saf4+, Chrome */
+            filter:  progid:DXImageTransform.Microsoft.gradient(startColorStr='#eee', EndColorStr='#ddd'); /* IE6,IE7 */
+        -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#eee', EndColorStr='#ddd')"; /* IE8 */
+}
 
 /* Form Controls */
 form label {}
