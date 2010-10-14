@@ -19,7 +19,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 }
 body {
 	font-family:'Yanone Kaffeesatz',Georgia,Times,serif;
-	background: #dcdcdc url('/site_media/frogger/images/backgroundHeader.png') top center no-repeat;
+	background: #dcdcdc url('../images/backgroundHeader.png') top center no-repeat;
 }
 ol, ul {
 	list-style: none;
@@ -89,7 +89,7 @@ a:hover {color:#990000;}
 #leaderboard {position:relative;width:900px;margin:0 auto;padding:5px 0px;height:40px;color:#006600;}
 #score, #lives, #level, #title {position:absolute;}
 #score {right:100px;font-size:200%;}
-#lives {right:0px;padding-left:35px;background: url('/site_media/frogger/images/frog_icon.png') left top no-repeat;font-size:200%;}
+#lives {right:0px;padding-left:35px;background: url('../images/frog_icon.png') left top no-repeat;font-size:200%;}
 #level {right:100px;font-size:200%;left:420px;}
 #title {left:0px;top:0px;font-size:250%;}
 

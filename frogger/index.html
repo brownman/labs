@@ -4,9 +4,25 @@
 	<meta name="description" content="A simple Frogger-like Game using the HTML5 Canvas Element">
 	<meta name="keywords" content="brian,stoner,frogger,html5,canvas,game,labs,experiment,cakejs,cake js">
 	<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz' rel='stylesheet' type='text/css'>
-	<link href='/site_media/frogger/style/frogger.css' rel='stylesheet' type='text/css'>
+	<link href='style/frogger.css' rel='stylesheet' type='text/css'>
 	
-	{% include "head_include.html" %}
+	<meta name="author" content="Brian Stoner">
+	<meta name="google-site-verification" content="ZLo0NHAWFuZoUzjmrDQuSACwrx6fbe0saPr1Y2mfC_c" />
+
+	<script type="text/javascript">
+
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-5776138-22']);
+	  _gaq.push(['_setDomainName', '.brianstoner.com']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+
+	</script>
 	
 </head>
 
@@ -20,36 +36,17 @@
 		</div>
 		<div id="bodyWrapper">
 			<div id="bodyInner">
-				<div id="leaderboardCol">
-					<h2>Leaderboard:</h2>
-					<ol>
-					{% for s in plays %}
-						<li class='leaderItem'>
-							<span class='rank'>{{ forloop.counter }}.</span>
-							<a href='http://facebook.com/{{ s.user.userid }}' class='user'>
-								<img src='http://graph.facebook.com/{{ s.user.userid }}/picture/' alt='' />
-							</a>
-								<span class='date'>{{ s.create_date|timesince }} ago</span>
-								<span class='score'>{{ s.score }}</span>
-								<span class='name'>{{ s.user.first_name }} {{ s.user.last_name }}</span>
-						</li>
-					{% empty %}
-						<li>No Scores Recorded</li>
-					{% endfor %}
-					</ol>
-					
-				</div>
 				
 				<div id="summaryCol">
-					<a href="/frogger/play/" title="Play">
-						<img src="/site_media/frogger/images/screenshot.jpg" alt="" />
+					<a href="play/" title="Play">
+						<img src="images/screenshot.jpg" alt="" />
 					</a>
-					<a href="/frogger/play/" title="Play" id="playGameButton">Play Game</a>
-					<p>Requires a browser that supports the HTML5 Canvas element, pretty much all modern browsers besides Internet Explorer.</p>
+					<a href="play/" title="Play" id="playGameButton">Play Game</a>
 					<h2>Technology Used</h2>
 					<p><a href="http://code.google.com/p/cakejs/" title="Cake.js">Cake.js</a> - A Javascript canvas animation/gaming framework.  Helpful in abstracting some of the lower level canvas manipulation out from this game's code.
 					</p>
 					<p><a href="http://developers.facebook.com" title="Facebook Graph API">Facebook Graph API</a> - Using simple javascript implementation of Facebook connect to authenticate people who play and want to record their score to the leaderboard or share with friends.</p>
+					<p>Requires a browser that supports the HTML5 Canvas element, pretty much all modern browsers besides Internet Explorer.</p>
 				</div>
 			</div>
 		</div>

@@ -11,19 +11,35 @@
 	<title>Space Cannon 3D</title>
 	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
 	<meta name="author" content="Brian Stoner">
-	{% include "head_include.html" %}
+	<meta name="author" content="Brian Stoner">
+	<meta name="google-site-verification" content="ZLo0NHAWFuZoUzjmrDQuSACwrx6fbe0saPr1Y2mfC_c" />
 
-	<link href="/site_media/spacecannon/style/game.css" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="/site_media/spacecannon/script/three.js"></script>
-	<script type="text/javascript" src="/site_media/spacecannon/data/echonestData.js"></script>
-	<script type="text/javascript" src="/site_media/spacecannon/script/objects/timbrePlane.js"></script>
-	<script type="text/javascript" src="/site_media/spacecannon/script/home.js"></script>
+	<script type="text/javascript">
+
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-5776138-22']);
+	  _gaq.push(['_setDomainName', '.brianstoner.com']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+
+	</script>
+
+	<link href="../style/game.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="../script/three.js"></script>
+	<script type="text/javascript" src="../data/echonestData.js"></script>
+	<script type="text/javascript" src="../script/objects/timbrePlane.js"></script>
+	<script type="text/javascript" src="../script/home.js"></script>
 </head>
 <body onload="init();" class="noSelection">
 	<div id="chrome_frame"></div>
 	<audio id="audio"> 
-		<source src="/site_media/spacecannon/audio/Home.ogg" type="audio/ogg; codecs=vorbis"> 
-		<source src="/site_media/spacecannon/audio/Home.mp3"> 
+		<source src="../audio/Home.ogg" type="audio/ogg; codecs=vorbis"> 
+		<source src="../audio/Home.mp3"> 
 	</audio>
 	<div id="intro1" class="textOverlay transparent roundedCorners">
 		Space Cannon 3D
@@ -54,7 +70,7 @@
 	<div id="score" class="textOverlay transparent roundedCorners noSelection"></div>
 	<div id="timer" class="textOverlay transparent roundedCorners noSelection"></div>
 	<div id="itunesLink" class="noSelection">
-		<a href="http://click.linksynergy.com/fs-bin/stat?id=8oUygtvMHo4&offerid=146261&type=3&subid=0&tmpid=1826&RD_PARM1=http%253A%252F%252Fitunes.apple.com%252Fus%252Falbum%252Fspin-it%252Fid343800518%253Fi%253D343800530%2526uo%253D6%2526partnerId%253D30" target="itunes_store"><img src="/site_media/spacecannon/images/iTunesLink.png" /></a>
+		<a href="http://click.linksynergy.com/fs-bin/stat?id=8oUygtvMHo4&offerid=146261&type=3&subid=0&tmpid=1826&RD_PARM1=http%253A%252F%252Fitunes.apple.com%252Fus%252Falbum%252Fspin-it%252Fid343800518%253Fi%253D343800530%2526uo%253D6%2526partnerId%253D30" target="itunes_store"><img src="../images/iTunesLink.png" /></a>
 		
 	</div>
 </body>
