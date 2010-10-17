@@ -219,9 +219,6 @@ function onDocumentMouseDown(event){
 
 	mouseDown = true;
 	
-	var beat = getBeatObject(mouseX);
-	//drawStartCoord = [beat.measure * pxBeatInterval, mouseY]; // line up start point with the 1st beat of the clicked measure for patterns
-	
 	drawStartCoord = [mouseX, mouseY];
 	
 	startBeat = Math.ceil((mouseX + 1) / pxBeatInterval);
@@ -318,8 +315,7 @@ function calculateNoteGrid(){
 
 function draw( x1, y1, x2, y2){	
 	// If they just clicked, or just clicked up, draw a circle, instead of a line.
-	if (x1==0 && y1==0){
-		
+	if (x1==0 && y1==0){	
 		if (curPattern!="00000000"){
 			return;
 		}
@@ -353,17 +349,11 @@ function drawDot(x, y){
 }	
 
 function drawPattern(x1, y1, x2, y2){
-	// hack to override start coords and redraw the line each time, so pattern is snyced across multiple mouse moves:
 	startX = drawStartCoord[0];
 	
 	ctx.strokeStyle = curColor;
 	ctx.beginPath();
-
-	x1 = startX; //x1 - (x1 % pxEigthBeatInterval); // line up to the beats
-	//x2 = x2 + (x2 % pxEigthBeatInterval);
 	
-	//var yIncrement = (y2 - y1) / (x2 - x1),
-	//	yCur = y2,
 	var	startBeat = Math.ceil((startX) / pxBeatInterval),
 		measure = Math.ceil(startBeat / 4),
 		beatInMeasure = startBeat - ((measure - 1) * 4); // assuming 4/4 time
@@ -372,29 +362,14 @@ function drawPattern(x1, y1, x2, y2){
 		ctx.moveTo( c, y2 );
 		//if (c>=x1){
 			if (curPattern.substr((beatInMeasure - 1)*2,1)=="1"){
-				//console.log("draawing at: ", c);
-				//yCur+=yIncrement;
 				ctx.lineTo( c + pxEigthBeatInterval, y2);
 			}
-			/*
-			if (curPattern.substr((beatInMeasure - 1)*2 + 1,1)=="1"){
-				ctx.moveTo( c + pxEigthBeatInterval, yCur );
-				yCur+=yIncrement;
-				ctx.lineTo( c + pxEigthBeatInterval*2, yCur);
-			} 
-			*/
 			beatInMeasure = (beatInMeasure==4) ? 1 : beatInMeasure+1;
 		//}
 	}
 	
 	ctx.closePath();
 	ctx.stroke();
-}
-
-function drawVerticalLines(){
-	//for (var i=0;i<CANVAS_WIDTH;i+=(pxBeatInterval*4)){
-		
-	//};
 }
 
 // Handle different patterns:
@@ -423,7 +398,7 @@ function renderInstrument(instrument){
 	
 	instrumentA.addEventListener("click", function(){
 		selectInstrument(instrument, this);
-	}, false)
+	}, false);
 	
 	instrumentLi.appendChild(instrumentA);
 	
