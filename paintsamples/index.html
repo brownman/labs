@@ -1,0 +1,34 @@
+<html>
+<head>
+	<link href="css/stylesheet.css" rel="stylesheet" />
+
+	<!-- dsp.js library: http://github.com/corbanbrook/dsp.js/ -->
+	<script src="js/dsp.js"></script>
+	
+	
+	<script src="js/cc.js"></script>
+</head>
+<body onload="onBodyLoad();">
+	<canvas id="canvas"></canvas> 
+	
+	<div id="footerBar">
+		<input type="button" name="playButton" id="playButton" value="Play" />
+		<input type="button" name="StopButton" id="stopButton" value="Stop" />
+
+		<p id="playStatus">0:0</p>
+
+		<select id="patternSelect">
+		</select>
+		<ul id="instrumentList">
+		</ul>
+	</div>
+	
+	<div id="noteHelper"></div>
+	<div id="noteHelperBar"></div>
+	
+	<div id="beatHelper"></div>
+	<div id="beatHelperBar"></div>
+	
+	<div id="playerPosition"></div>
+</body>
+</html>

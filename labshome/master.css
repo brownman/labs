@@ -83,12 +83,12 @@ a:hover {color:#111;}
 	#bodyWrapper {width:100%;height:100%;margin-top:20px;min-height:600px;}
 
 		#labsList li {float:left;clear:both;width:100%;}
-		#labsList li div {margin-left:auto;margin-right:auto;width:900px;padding:10px;height:100px;overflow:hidden;}
+		#labsList li div {margin-left:auto;margin-right:auto;width:900px;padding:10px;height:120px;overflow:hidden;}
 
 			/*#labsList li:hover {background-color:#eee;}*/
 		
 		#labsList a {display:block;}
-		#labsList img {margin-right:10px;float:left;}
+		#labsList img {margin-right:10px;float:left;padding:10px;background-color:#f5f5f5;}
 		#labsList .title {padding-bottom:5px;}
 		#labsList .date {color:#666;line-height:1.0;padding-bottom:5px;}
 

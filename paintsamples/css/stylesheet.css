@@ -1,0 +1,143 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+	text-decoration:none;
+	color:#333;
+}
+body,html {
+	width:100%;
+	height:100%;
+	position:fixed;
+	font-family:'Helvetica',Arial,sans-serif;
+	background-color: #eee;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+/* remember to define focus styles! */
+:focus {
+	outline: 0;
+}
+
+/* remember to highlight inserts somehow! */
+ins {
+	text-decoration: none;
+}
+del {
+	text-decoration: line-through;
+}
+
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+#canvas {
+	position:absolute;
+	z-index:5;
+}
+
+#footerBar {
+	position:fixed;
+	bottom:0;
+	left:0;
+	width:100%;
+	height:60px;
+	background-color: #333;
+}
+
+#instrumentList {
+	position:absolute;
+	bottom:0;
+	right:0;
+	height:60px;
+}
+
+#instrumentList li {
+	float:right;
+}
+
+#instrumentList li a {
+	display:block;
+	cursor: pointer;
+	line-height:20px;
+	height:40px;
+	width:40px;
+	padding:10px;
+	font-size:80%;
+	line-height:1.0;
+	position:relative;
+	font-weight:bold;
+	z-index:11;
+}
+
+#instrumentList li a:hover, #instrumentList li a.selected {
+	top:-10px;
+	height:60px;
+	z-index:12; 
+}
+
+#playStatus {
+	color: #fff;
+	position:relative;
+}
+
+#noteHelper, #beatHelper {
+	display:none;
+	padding: 5px;
+	position:absolute;
+	left:0;
+	top:0;
+	background-color:rgba(255, 255, 255, 1);
+	-moz-box-shadow: 0px 0px 7px #aaa;
+	font-size:80%;
+	color: #555;
+	z-index:7;
+}
+
+#noteHelperBar, #beatHelperBar {
+	display:none;
+	position:absolute;
+	left:0;
+	top:0;
+	background-color:rgba(0, 128, 255, 0.2);
+	z-index:1;
+}
+
+#playerPosition {
+	display:none;
+	background-color:rgba(0, 0, 0, 0.5);
+	position:absolute;
+	top:0;
+	left:0;
+	height:100%;
+	width:0;
+	z-index:6;
+}
+
+#stopButton {
+	display:none;
+}
