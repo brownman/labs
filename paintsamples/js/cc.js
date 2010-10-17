@@ -20,7 +20,7 @@ var CANVAS_ID = "canvas",
 		{name: "On The 1's & 3's", value: "10001000"},
 		{name: "On The 2's & 4's", value: "00100010"},
 		{name: "1's, 2's, 3's & 4's", value: "10101010"},
-		{name: "Off beats", value: "01010101"}
+		{name: "Off beats", value: "01000100"}
 	],
 	
 	INSTRUMENTS = {
@@ -267,7 +267,7 @@ function onDocumentMouseMove(event){
 		mouseY = oldMouseY;
 	}
 
-	if ( mouseDown && isDrawing==false) {
+	if ( mouseDown) {
 		draw( oldMouseX, oldMouseY, mouseX, mouseY);
 	}
 
@@ -317,16 +317,12 @@ function calculateNoteGrid(){
 }
 
 function draw( x1, y1, x2, y2){	
-	//isDrawing = true;
-	
 	// If they just clicked, or just clicked up, draw a circle, instead of a line.
 	if (x1==0 && y1==0){
 		
 		if (curPattern!="00000000"){
 			return;
 		}
-		
-		isDrawing = false;
 		return drawDot(x2, y2);
 	}
 	
@@ -343,8 +339,6 @@ function draw( x1, y1, x2, y2){
 	ctx.lineTo( x2, y2 );
 	ctx.closePath();
 	ctx.stroke();
-	
-	isDrawing = false;
 }
 
 function drawDot(x, y){
@@ -365,29 +359,36 @@ function drawPattern(x1, y1, x2, y2){
 	ctx.strokeStyle = curColor;
 	ctx.beginPath();
 
-	x1 = x1 - (x1 % pxEigthBeatInterval); // line up to the beats
-
-	var yIncrement = (y2 - y1) / (x2 - x1),
-		yCur = y2,
-		startBeat = Math.ceil((x1 + 1) / pxBeatInterval),
+	x1 = startX; //x1 - (x1 % pxEigthBeatInterval); // line up to the beats
+	//x2 = x2 + (x2 % pxEigthBeatInterval);
+	
+	//var yIncrement = (y2 - y1) / (x2 - x1),
+	//	yCur = y2,
+	var	startBeat = Math.ceil((startX) / pxBeatInterval),
 		measure = Math.ceil(startBeat / 4),
 		beatInMeasure = startBeat - ((measure - 1) * 4); // assuming 4/4 time
 	
-	for(var c=startX;c<x2;c+=pxEigthBeatInterval){
+	for(var c=startX;c<x2;c+=pxBeatInterval){
 		ctx.moveTo( c, y2 );
-		if (c>=x1){
-			if (curPattern.substr((beatInMeasure - 1)*2,2)=="10"){
-				yCur+=yIncrement;
-				ctx.lineTo( c + pxEigthBeatInterval, yCur);
+		//if (c>=x1){
+			if (curPattern.substr((beatInMeasure - 1)*2,1)=="1"){
+				//console.log("draawing at: ", c);
+				//yCur+=yIncrement;
+				ctx.lineTo( c + pxEigthBeatInterval, y2);
 			}
+			/*
+			if (curPattern.substr((beatInMeasure - 1)*2 + 1,1)=="1"){
+				ctx.moveTo( c + pxEigthBeatInterval, yCur );
+				yCur+=yIncrement;
+				ctx.lineTo( c + pxEigthBeatInterval*2, yCur);
+			} 
+			*/
 			beatInMeasure = (beatInMeasure==4) ? 1 : beatInMeasure+1;
-		}
+		//}
 	}
 	
 	ctx.closePath();
 	ctx.stroke();
-	
-	isDrawing = false;
 }
 
 function drawVerticalLines(){
@@ -559,13 +560,6 @@ function audioWriter() {
 	        additiveSignal = ins.s.applyEnvelope();
 	      }
 
-	      /*
-	      // This makes it fall out of sync for some reason.
-	      if ( typeof  additiveSignal === 'undefined' ) {
-	        additiveSignal = silence;
-	      }
-	      */
-
 	      // Flush buffer  
 	      ins.output.mozWriteAudio([]);
    
@@ -581,7 +575,7 @@ function audioWriter() {
 }
 
 function getBeatObject(mouseX){
-	var beat = Math.ceil((mouseX + 1) / pxBeatInterval),
+	var beat = Math.ceil((mouseX) / pxBeatInterval),
 		measure = Math.ceil(beat / 4),
 		beatInMeasure = beat - ((measure - 1) * 4); // assuming 4/4 time
 	return {
@@ -592,14 +586,5 @@ function getBeatObject(mouseX){
 }
 
 function getInstrumentColor(Instrument, opacity){
-/*
-	var op = "",
-		prefix = "rgb";
-	if (opacity){
-		op = "," + opacity;
-		prefix = "rgba"
-	}
-	return prefix + '(' + Instrument.color.join(",") + op + ')';
-*/
 	return 'rgb(' + Instrument.color.join(",") + ')';
 }
