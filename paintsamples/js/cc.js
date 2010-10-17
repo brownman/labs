@@ -15,12 +15,12 @@ var CANVAS_ID = "canvas",
 	LINE_WIDTH = PIXEL_BEAT_INTERVAL / 2, // to allow for eigth notes
 	
 	PATTERNS = [
-		{name: "None",value:"00000000"},
+		{name: "Solid",value:"00000000"},
 		{name: "On The 1's", value: "10000000"},
 		{name: "On The 1's & 3's", value: "10001000"},
-		{name: "On The 2's & 4's", value: "00100010"},
-		{name: "1's, 2's, 3's & 4's", value: "10101010"},
-		{name: "Off beats", value: "01000100"}
+		{name: "On The 2's & 4's", value: "00100010"}
+		//{name: "1's, 2's, 3's & 4's", value: "10101010"},
+		//{name: "On The off-beats", value: "01000100"}
 	],
 	
 	INSTRUMENTS = {

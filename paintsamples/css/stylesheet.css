@@ -141,3 +141,69 @@ table {
 #stopButton {
 	display:none;
 }
+
+#logo {
+	position:absolute;
+	top:0;
+	right:0;
+	padding:10px;
+ 	-moz-transform: rotate(7.5deg);
+    -webkit-transform: rotate(7.5deg);
+	background-color: rgba(255, 255, 255, 0.5);
+	color: #222;
+	font-size:140%;
+	letter-spacing:-0.5;
+	font-weight:bold;
+	-moz-box-shadow: 0px 0px 10px #aaa;
+	-webkit-box-shadow: 0px 0px 10px #aaa;
+	top:5px;
+}
+
+#playButtonWrapper {
+	height:40px;
+	padding:10px;
+	position:relative;
+	left:0;
+	bottom:0;
+	float:left;
+}
+
+#playButton, #stopButton {
+  	background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #eee),color-stop(1, #bbb));
+	background-image: -moz-linear-gradient(top, #eee, #bbb);
+  	-moz-border-radius: 3px;
+	-moz-box-shadow: 0px 0px 4px #444;
+	padding: 12px 20px;
+	color: #444;
+	font-weight:bold;
+	cursor:pointer;
+	text-decoration:none;
+	z-index:11;
+	position:absolute;
+	bottom:10px;
+	left:10px;
+}
+
+#playStatus {
+	position:absolute;
+	left:120px;
+	top:10px;
+	line-height:40px;
+	font-weight:bold;
+}
+
+#patternSelectLabel {
+	position:absolute;
+	left: 200px;
+	top:0;
+	line-height:60px;
+	color:#aaa;
+	font-size:80%;
+	font-weight:bold;
+}
+
+#patternSelect {
+	position:absolute;
+	left: 250px;
+	top: 20px;
+}

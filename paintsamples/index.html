@@ -12,11 +12,14 @@
 	<canvas id="canvas"></canvas> 
 	
 	<div id="footerBar">
-		<input type="button" name="playButton" id="playButton" value="Play" />
-		<input type="button" name="StopButton" id="stopButton" value="Stop" />
-
+		<div id="playButtonWrapper">
+			<a title="Play Drawing" href="#" id="playButton">Play</a>
+			<a title="Stop Drawing" href="#" id="stopButton">Stop</a>
+		</div>
+		
 		<p id="playStatus">0:0</p>
 
+		<label id="patternSelectLabel">Pattern:</label>
 		<select id="patternSelect">
 		</select>
 		<ul id="instrumentList">
@@ -30,5 +33,7 @@
 	<div id="beatHelperBar"></div>
 	
 	<div id="playerPosition"></div>
+	
+	<div id="logo">Paint Samples</div>
 </body>
 </html>
