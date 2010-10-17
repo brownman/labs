@@ -219,9 +219,8 @@ function onDocumentMouseDown(event){
 
 	mouseDown = true;
 	
-	drawStartCoord = [mouseX, mouseY];
-	
-	startBeat = Math.ceil((mouseX + 1) / pxBeatInterval);
+	startBeatX = Math.ceil((mouseX + 1) / pxBeatInterval) * pxBeatInterval;
+	drawStartCoord = [startBeatX, mouseY];
 	
 	draw(0,0,mouseX, mouseY);
 }
@@ -230,9 +229,9 @@ function onDocumentMouseUp(event){
 	mouseX = event.clientX - cvs.offsetLeft;
 	mouseY = event.clientY - cvs.offsetTop;
 	
-	if (mouseX < oldMouseX){
-		mouseX = oldMouseX;
-	}
+	//if (mouseX < oldMouseX){
+	//	mouseX = oldMouseX;
+	//}
 	
 	oldMouseX = oldMouseY = 0;
 	
@@ -256,9 +255,9 @@ function onDocumentMouseMove(event){
 	renderBeatHelper(mouseX);
 
 	// Don't let them draw backwards, only forward
-	if (mouseX < oldMouseX){
-		mouseX = oldMouseX;
-	}
+	//if (mouseX < oldMouseX){
+	//	mouseX = oldMouseX;
+	//}
 
 	if (shiftPressed){
 		mouseY = oldMouseY;
