@@ -26,35 +26,35 @@ var CANVAS_ID = "canvas",
 	INSTRUMENTS = {
 		BASS_DRUM: {
 			displayName: "Bass Drum", 
-			file: '/paintsamples/audio/ogg/428_TicTacShutUp_prac_kick.ogg',
+			file: '/paintsamples/audio/ogg/NON BD 1_A1.ogg',
 			color: [255, 0, 0],  // red
 			textColor: "rgb(128, 0, 0)",
 			restartOnOctaveChange: true
 		},
 		SNARE_DRUM: {
 			displayName: "Snare Drum", 
-			file: '/paintsamples/audio/ogg/447_TicTacShutUp_prac_snare.ogg',
+			file: '/paintsamples/audio/ogg/NON SD 8_A1.ogg',
 			color: [255, 128, 0], // orange
 			textColor: "rgb(128, 64, 0)",
 			restartOnOctaveChange: true
 		},
 		TOM_DRUM: {
 			displayName: "Tom Drum", 
-			file: '/paintsamples/audio/ogg/449_TicTacShutUp_prac_tom.ogg',
+			file: '/paintsamples/audio/ogg/NON LT 6_A2.ogg',
 			color: [255, 255, 0], // yellow
 			textColor: "rgb(128, 128, 0)",
 			restartOnOctaveChange: true
 		},
 		HI_HAT_OPEN: {
 			displayName: "Hi-Hat",
-			file: '/paintsamples/audio/ogg/425_TicTacShutUp_prac_hat_open.ogg',
+			file: '/paintsamples/audio/ogg/NON CH 2.ogg',
 			color: [128,255,0], // neon green
 			textColor: "rgb(64, 128, 0)",
 			restartOnOctaveChange: true
 		},
-		GUITAR_PLUCK: {
-			displayName: "Guitar (pluck)",
-			file: '/paintsamples/audio/ogg/12508_NoiseCollector_yamahfingerpluck.ogg',
+		CRASH: {
+			displayName: "Crash",
+			file: '/paintsamples/audio/ogg/NON CR 2_AS5.ogg',
 			color: [255,0,255], // pink
 			textColor: "rgb(128, 0, 128)",
 			restartOnOctaveChange: true
@@ -80,9 +80,9 @@ var CANVAS_ID = "canvas",
 			textColor: "rgb(128, 128, 255)",
 			restartOnOctaveChange: true			
 		},
-		BASS: {
-			displayName: "Bass",
-			file: '/paintsamples/audio/ogg/2895_ao_ks_FRhodesBass_C2.ogg',
+		DRIP: {
+			displayName: "Drip",
+			file: '/paintsamples/audio/ogg/DK_chrd_01.ogg',
 			color: [0,0,0], // black
 			textColor: "rgb(200, 200, 200)",
 			restartOnOctaveChange: true			
