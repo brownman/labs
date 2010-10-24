@@ -1,0 +1,66 @@
+<html>
+<head>
+	<style>
+		#touchStarted, #touchMoved, #touchEnded {
+			display: block;
+			width: 50px;
+			height:50px;
+			background-color: #fff;
+			float:left;
+		}
+	</style>
+	<script>
+	
+		var touchStartedDiv,
+			touchMovedDiv,
+			touchEndedDiv,
+			coordsDiv;
+	
+		document.addEventListener('touchstart',touchStarted, false);
+		document.addEventListener('touchmove', touchMoved, false);
+		document.addEventListener('touchend', touchEnded, false);
+	
+	
+		function touchStarted(e){
+			touchStartedDiv.style.backgroundColor = "#ff0";
+			coordsDiv.textContent = (e.touches[0].pageX + ", " + e.touches[0].pageY);
+			setTimeout(function(){
+				touchStartedDiv.style.backgroundColor = "#fff";
+			}, 100);
+		}
+		
+		function touchMoved(e){
+			touchMovedDiv.style.backgroundColor = "#f0f";
+			coordsDiv.textContent = (e.touches[0].pageX + ", " + e.touches[0].pageY);		
+			setTimeout(function(){
+				touchMovedDiv.style.backgroundColor = "#fff";
+			}, 100);
+		}
+		
+		function touchEnded(e){
+			touchEndedDiv.style.backgroundColor = "#f00";
+			coordsDiv.textContent = (e.touches[0].pageX + ", " + e.touches[0].pageY);
+			setTimeout(function(){
+				touchEndedDiv.style.backgroundColor = "#fff";
+			}, 100);
+		}
+		
+		function initEvents(){
+			touchStartedDiv = document.getElementById("touchStarted");
+			touchMovedDiv = document.getElementById("touchMoved");
+			touchEndedDiv = document.getElementById("touchEnded");
+			coordsDiv = document.getElementById("coords");
+		}
+		
+	</script>
+</head>
+<body onload="initEvents();">
+	
+	
+	<div id="touchStarted"></div>
+	<div id="touchMoved"></div>
+	<div id="touchEnded"></div>
+
+	<div id="coords"></div>
+</body>
+</html>
