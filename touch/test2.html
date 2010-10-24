@@ -26,15 +26,20 @@
 		document.addEventListener('gesturestart', gestureChange, false);
 		document.addEventListener('gesturechange', gestureChange, false);
 		
-	
+		document.addEventListener('mousemove', touchMoved, false);
 		function touchStarted(e){
 			e.preventDefault();
 		}
 		
 		function touchMoved(e){
 			e.preventDefault();
-			testdiv.style.left = e.touches[0].pageX;
-			testdiv.style.top = e.touches[0].pageY;
+			if (e.touches){
+				testdiv.style.left = e.touches[0].pageX + "px";
+				testdiv.style.top = e.touches[0].pageY + "px";
+			} else {
+				testdiv.style.left = e.clientX + "px";
+				testdiv.style.top = e.clientY + "px";
+			}
 		}
 		
 		function touchEnded(e){
