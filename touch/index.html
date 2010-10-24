@@ -1,6 +1,7 @@
 <html>
 <head>
 	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 	<meta name="viewport" content="user-scalable=no, width=device-width" />
 	<style>
 		#touchStarted, #touchMoved, #touchEnded {
@@ -32,6 +33,7 @@
 		}
 		
 		function touchMoved(e){
+			e.preventDefault();
 			touchMovedDiv.style.backgroundColor = "#f0f";
 			coordsDiv.textContent = (e.touches[0].pageX + ", " + e.touches[0].pageY);		
 			setTimeout(function(){
