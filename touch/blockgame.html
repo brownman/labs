@@ -1,0 +1,263 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.1//EN" "http://www.openmobilealliance.org/tech/DTD/xhtml-mobile11.dtd">
+<html>
+<head>
+	<title>Touch</title>
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="viewport" content="user-scalable=no, width=device-width" />
+	<style>
+		html, body, #pageWrapper {
+			padding:0;
+			margin:0;
+			width:100%;
+			height:100%;
+			background-color:#fafafa;
+			font-family:Helvetica, Arial, sans-serif;
+		}
+		
+		h1 {color: #fff;font-size:18px;letter-spacing:.5;line-height:50px;text-align:center;background-color:#6f88a7;background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #aab7c8),color-stop(0.45,#8c9eb6), color-stop(0.55, #7e93ae),color-stop(1, #6f88a7));text-shadow: 0px -1px 1px #999;-webkit-text-shadow: 0px 0px 1px #888;padding:0;margin:0;}
+	
+		#targetBlocks {
+			width:60px;
+			height:60px;
+			margin:10px auto;
+			-webkit-border-radius:5px;
+			-webkit-box-shadow: 0 0px 6px #ccc;
+			background-color:#ccc;
+		}
+		
+		.targetBlock {
+			width:18px;
+			height:18px;
+			float:left;
+			margin:1px;
+			background-color:#fff;
+			-webkit-border-radius:2px;
+			background-color:#ccc;
+		}
+	
+		#gameBoard {
+			width:225px;
+			margin:0 auto;
+			height:225px;
+			position:relative;
+			-webkit-border-radius:10px;
+			-webkit-box-shadow: 0 0px 6px #ccc;
+			background-color:#ccc;
+			padding:5px;
+		}
+		.blockDiv {
+			display: block;
+			position: relative;
+			width: 73px;
+			height: 73px;
+			-webkit-border-radius: 10px;
+			margin: 1px;
+			background-color: #fff;
+			float:left;
+		}
+		
+		#numMoves {
+			display:block;
+			text-align:center;
+			margin:15px auto 0 auto;
+			background-color:#fff;
+			-webkit-border-radius: 5px;
+			padding:5px;
+			width: 120px;
+			font-weight:bold;
+			-webkit-box-shadow: 0 0px 6px #ccc;
+			color:#555;
+			height:20px;
+			line-height:20px;
+		}
+		
+		#modalWrapper {
+			z-index:10;
+			position:absolute;
+			top:0;
+			left:0;
+			height:100%;
+			width:100%;
+			background-color: rgba(0,0,0,0.5);
+			display:none;
+		}
+		
+		#modalContent {
+			position:relative;
+			color:#222;
+			font-weight:bold;
+			text-align:center;
+			padding:20px;
+			width:150px;
+			height:50px;
+			margin:50px auto;
+			background-color:#eee;
+			-webkit-border-radius:15px;
+			-webkit-box-shadow: 0 0px 12px #222;
+		}
+	</style>
+	<script>
+	
+		var targetBlocks = [],
+			blocks = [],
+			numColumns = 3,
+			numRows = 3,
+			numBlocks = numColumns * numRows,
+			gameBoard,
+			targetBlockDiv,
+			numMovesDiv,
+			modalWrapper,
+			modalContent,
+			numMoves = 0,
+			colorSequence = [
+				'-webkit-gradient(linear,left top,left bottom,color-stop(0, #ffffff),color-stop(1, #eeeeee))',
+				'-webkit-gradient(linear,left top,left bottom,color-stop(0, #CC3333),color-stop(1, #990000))',
+				'-webkit-gradient(linear,left top,left bottom,color-stop(0, #3322CC),color-stop(1, #000066))',
+				'-webkit-gradient(linear,left top,left bottom,color-stop(0, #FFFF66),color-stop(1, #CCCC33))',
+			];
+	
+		document.addEventListener('touchstart',blockClicked, false);
+		document.addEventListener('touchmove', touchMoved, false);
+		document.addEventListener('touchend', touchEnded, false);
+		document.addEventListener('gesturestart', gestureChange, false);
+		document.addEventListener('gesturechange', gestureChange, false);
+		document.addEventListener('mousemove', touchMoved, false);
+		
+		
+		var games = [
+			[1,2,0,3,0,1,0,3,0],
+			[1,3,0,3,0,3,0,0,1],
+			[0,1,0,1,2,1,0,1,0],
+			[1,0,1,0,2,0,1,0,1],
+			[2,2,3,3,2,2,2,2,3],
+			[0,2,3,1,0,2,0,2,3],
+			[1,2,0,2,0,1,3,2,0]
+		];
+		
+		function touchMoved(e){
+			e.preventDefault();
+		}
+		
+		function touchEnded(e){
+			e.preventDefault();
+		}
+		
+		function gestureChange(){
+			e.preventDefault();
+		}
+		
+		function checkForWin(){
+			for(var i=0;i<numBlocks;i++){
+				if (blocks[i].curColorIndex!=curGame[i]){
+					console.log("block: ",i,blocks[i].curColorIndex,curGame[i]);
+					return false;
+				}
+			}
+			return true;
+		}
+		
+		function showModal(content){
+			modalWrapper.style.display = "block";
+			modalContent.textContent = content;
+			modalContent.style.display = "block";
+			
+		}
+		
+		function advanceColor(block){
+			if (block.curColorIndex>=colorSequence.length-1){
+				block.curColorIndex = 0;
+			} else {
+				block.curColorIndex++;
+			}
+			
+			block.style.backgroundImage = colorSequence[block.curColorIndex];			
+		}
+		
+		function advanceAdjacentColors(block){
+			var i = blocks.indexOf(block);
+			
+			if (blocks[i+1] && (i+1) % numColumns != 0){
+				blocks[i+1].curColorIndex = block.curColorIndex;
+				blocks[i+1].style.backgroundImage = colorSequence[block.curColorIndex];
+			}
+			if (blocks[i-1] && i % numColumns != 0){
+				blocks[i-1].curColorIndex = block.curColorIndex;
+				blocks[i-1].style.backgroundImage = colorSequence[block.curColorIndex];
+			}
+			
+			if (blocks[i-numColumns]){
+				blocks[i-numColumns].curColorIndex = block.curColorIndex;
+				blocks[i-numColumns].style.backgroundImage = colorSequence[block.curColorIndex];
+			}
+			if (blocks[i+numColumns]){
+				blocks[i+numColumns].curColorIndex = block.curColorIndex;
+				blocks[i+numColumns].style.backgroundImage = colorSequence[block.curColorIndex];
+			}
+		}
+		
+		function blockClicked(e){
+			e.preventDefault();	
+
+			advanceAdjacentColors(e.target);
+			advanceColor(e.target);
+			
+			numMoves++;
+			numMovesDiv.textContent = numMoves + " Moves";
+			
+			if (checkForWin()){
+				showModal("YOU WIN!!!");
+			};
+		}
+		
+		function initEvents(){
+			window.scrollTo(0,1);
+			
+			targetBlockDiv = document.getElementById("targetBlocks");
+			numMovesDiv = document.getElementById("numMoves");
+			gameBoard = document.getElementById("gameBoard");
+			modalContent = document.getElementById("modalContent");
+			modalWrapper = document.getElementById("modalWrapper");
+			
+			curGame = games[Math.floor(Math.random()*games.length)];
+			
+			// Target Blocks
+			for (var i=0;i<numBlocks;i++){
+				var b = document.createElement("div"),
+					colorIdx = curGame[i];
+					
+				b.className="targetBlock";
+				b.id="targetBlock_" + i;
+				b.curColorIndex = colorIdx;
+				b.style.backgroundImage = colorSequence[colorIdx];
+				targetBlockDiv.appendChild(b);
+			}
+			
+			// Actual Blocks:
+			for(var i=0;i<numBlocks;i++){
+				var b = document.createElement("div");
+				b.className = "blockDiv";
+				b.id = "block_" + i;
+				b.curColorIndex = 0;
+				blocks.push(b);
+				
+				b.addEventListener("click",blockClicked,false);
+				
+				gameBoard.appendChild(b);
+			}
+		}
+	</script>
+</head>
+<body onload="initEvents();">
+	<div id="pageWrapper">
+		<h1>Blocks</h1>
+		<div id="targetBlocks"></div>
+		<div id="gameBoard">
+		</div>
+		<div id="numMoves"></div>
+	</div>
+	<div id="modalWrapper"><div id="modalContent"></div></div>
+
+		
+</body>
+</html>
