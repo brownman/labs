@@ -673,6 +673,8 @@ Array.prototype.remove = function(from, to) {
 
 function init()
 {
+	// UPDATE:  Commenting out browser detection since FF4 and IE9 should be cool with this demo now...
+	/*
 	// Only allow to run for browsers that can handle it (basically just not ie)
     var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
     var is_safari = navigator.userAgent.toLowerCase().indexOf('safari') > -1;
@@ -686,6 +688,6 @@ function init()
 	CFInstall.check({
 		mode: "popup"
 	});
-	
+	*/
 	jsGameInstance = new jsGame();
 }
