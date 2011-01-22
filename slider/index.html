@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<head>
+	<title>Slider Menu</title>
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="viewport" content="user-scalable=no, width=device-width" />
+	<script src="zepto-0.1.1/dist/zepto.min.js"></script>
+	<style>
+		body, html {
+			width:100%;
+			height:100%;
+			padding:0;
+			margin:0;
+			background-color:#000;
+			overflow:hidden;
+		}
+		
+		.menuWrap {
+			width:100%;
+			height:90%;
+			margin-top:50px;
+			position:relative;
+			overflow:hidden;
+		}
+		
+		.menu {
+			list-style:none;
+			outline: none;
+			padding:0;
+			margin:0;
+			display:block;
+			height:600px;
+			width:3000px;
+			position:absolute;
+			left:0;
+			top:0;
+			/*-webkit-transition: all 0.1s ease;  Saf3.2+, Chrome */
+		}
+		
+		.menuTransition {
+			-webkit-transition: all 0.5s ease-out;
+		}
+		
+		.menu li {
+			float:left;
+			height:100%;
+			padding:0;
+			margin:0 5px;
+		}
+		.menu li img {
+			height: 100%;
+		}
+		
+	</style>
+	<script>
+		$(document).ready(function(){
+			var menu = $('.menu'),
+				items = $('.menu li'),
+				menuWidth = 0,
+				browserWidth = document.body.offsetWidth,
+				leftMargin = 0,
+				oldCoords = {x:0,y:0},
+				startOffset = null,
+				scrolling = false,
+				direction = null,
+				velocity = 0;
+			
+			for(var i=0;i<items.dom.length;i++){
+				var img = items.dom[i].getElementsByTagName('img')[0];
+				
+				// center the first image in the browser:
+				if(i==0){
+					img.addEventListener('load',function(){
+						leftMargin = (browserWidth - $(this).offset().width) / 2;
+						menu.css('left',(browserWidth - $(this).offset().width) / 2 + "px");
+					});
+				}
+
+				// add up the total width of the menu as the images load to the DOM:
+				img.addEventListener('load', function(){
+					var imgWidth = $(this).offset().width;
+
+					menuWidth += imgWidth;
+					menu.css('width',parseInt(menu.css('width')) + imgWidth + 'px');
+				});
+			}
+
+			menu.bind('touchend mouseup', function(event){
+				if(!scrolling){
+					return
+				}
+
+				scrolling = false;
+				startOffset = null;
+
+				// add a little scroll after they let up based on their velocity:
+				$(this).addClass('menuTransition');
+				
+				var curLeft = $(this).offset().left,
+					adjustedLeft = curLeft - (velocity*2);
+
+				// Bring it back to the boundaries with a bounce...
+				if(curLeft>leftMargin){
+					adjustedLeft = leftMargin;
+				}
+				
+				if(curLeft<((menuWidth - browserWidth/2) *-1)){
+					adjustedLeft = (menuWidth - browserWidth/2) *-1;
+				}
+				
+				$(this).css('left',adjustedLeft + 'px');				
+
+				velocity = 0;
+			});
+			
+			menu.bind('touchstart mousedown', function(event){
+				var context = this;
+				$(this).removeClass('menuTransition');
+				
+				scrolling = true;
+				oldCoords = getTouchCoords(event);
+				startOffset = $(this).offset();
+			});
+			
+			menu.bind('touchmove mousemove', function(event){
+				if(!scrolling || !startOffset){
+					return;
+				}
+
+				
+				event.preventDefault();
+				var newCoords = getTouchCoords(event);
+				
+				velocity = oldCoords['x'] - newCoords['x'];
+				
+				startOffset.left -= velocity;
+				
+				$('#leftPx').html(startOffset.left);
+				$(this).css('left',startOffset.left + "px");
+				
+				oldCoords = newCoords;
+			});
+			
+			function getTouchCoords(e){
+				if (e.touches){
+					return { 
+						x: e.touches[0].pageX,
+						y: e.touches[0].pageY
+					}
+				} else {
+					return {
+						x: e.clientX,
+						y: e.clientY
+					}
+				}
+			}
+		});
+	</script>
+</head>
+<body>
+	<div class="menuWrap">
+		<ul class="menu">
+			<li><a href="http://google.com"><img src="images/car1.jpg" /></a></li>
+			<li><a href="http://yahoo.com"><img src="images/car2.jpg" /></a></li>
+			<li><a href="http://google.com"><img src="images/car3.jpg" /></a></li>
+			<li><a href="http://yahoo.com"><img src="images/car4.jpg" /></a></li>
+			<li><a href="http://bing.com"><img src="images/car5.jpg" /></a></li>
+		</ul>
+		
+		<h1 id="leftPx" style="color:#fff;position:absolute;bottom:0;"></h1>
+	</div>
+</body>
+</html>
+
